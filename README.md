@@ -2,7 +2,6 @@
 
 Small wrapper for [Restcord](http://www.restcord.com).
 
-
 # Installation
 
 ```

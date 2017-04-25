@@ -2,6 +2,8 @@
 
 namespace LaravelRestcord;
 
+use RestCord\DiscordClient;
+
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
@@ -26,9 +28,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             __DIR__.'/config/laravel-restcord.php', 'laravel-restcord'
         );
 
-        $this->app->bind(Discord::class, function ($app) {
+        $this->app->bind(DiscordClient::class, function ($app) {
             $config = $app['config']['laravel-restcord'];
-            return new Discord($config['bot-token'], [
+            return new DiscordClient([
+                'token' => $app['bot-token'],
+
+                // use Laravel's monologger
+                'logger' => $app['log']->getMonolog(),
+
                 'throwOnRatelimit' => $config['throw-exception-on-rate-limit'],
             ]);
         });
