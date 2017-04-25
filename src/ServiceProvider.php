@@ -31,6 +31,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->app->bind(DiscordClient::class, function ($app) {
             $config = $app['config']['laravel-restcord'];
+
             return new DiscordClient([
                 'token' => $app['bot-token'],
 
