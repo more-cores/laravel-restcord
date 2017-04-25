@@ -1,0 +1,19 @@
+{
+  "name": "more-cores/restcord",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "LaravelRestcord\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.1.0",
+    "illuminate/support": ">=5.0",
+    "restcord/restcord": "0.*"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "dev-master"
+  },
+  "minimum-stability": "stable"
+}
