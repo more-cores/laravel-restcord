@@ -14,9 +14,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/laravel-restcord.php' => config_path('laravel-restcord.php'),
+            __DIR__.'/config/laravel-restcord.php' => config_path('laravel-restcord.php'),
         ]);
     }
+
     /**
      * Register bindings in the container.
      *
