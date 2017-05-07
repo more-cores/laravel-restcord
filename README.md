@@ -1,10 +1,10 @@
 # laravel-restcord [![Latest Stable Version](https://poser.pugx.org/more-cores/laravel-restcord/v/stable.png)](https://packagist.org/packages/more-cores/laravel-restcord) [![Total Downloads](https://poser.pugx.org/more-cores/laravel-restcord/downloads.png)](https://packagist.org/packages/more-cores/laravel-restcord)
 
-Small wrapper for [Restcord](http://www.restcord.com).
+Small wrapper for [Restcord](http://www.restcord.com).  
 
 # Features
  
- * Integrates Restcord with Laravel Socialite so currently OAuth'd user is used for api calls
+ * Integrates Restcord with [Laravel Socialite](http://socialiteproviders.github.io) so currently OAuth'd user is used for api calls
 
 # Installation
 
