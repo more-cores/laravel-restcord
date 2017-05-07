@@ -2,6 +2,10 @@
 
 Small wrapper for [Restcord](http://www.restcord.com).
 
+# Features
+ 
+ * Integrates Restcord with Laravel Socialite so currently OAuth'd user is used for api calls
+
 # Installation
 
 ```
