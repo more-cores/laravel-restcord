@@ -2,14 +2,12 @@
 
 namespace LaravelRestcord;
 
-use Auth;
 use Event;
 use Illuminate\Auth\Events\Login;
-use LaravelRestcord\Authentication\AddTokenToSession;
-use RestCord\DiscordClient;
-use LaravelRestcord\Authentication\Socialite\DiscordProvider;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Laravel\Lumen\Application as LumenApplication;
+use LaravelRestcord\Authentication\AddTokenToSession;
+use RestCord\DiscordClient;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -70,7 +68,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function provides()
     {
         return [
-            DiscordClient::class
+            DiscordClient::class,
         ];
     }
 }

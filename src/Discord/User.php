@@ -15,7 +15,7 @@ class User
     }
 
     /**
-     * Get a user's guilds they have access to
+     * Get a user's guilds they have access to.
      *
      * @return Guild[]
      */

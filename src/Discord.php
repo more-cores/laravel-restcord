@@ -16,7 +16,7 @@ class Discord
     }
 
     /**
-     * Guilds the current user has access to
+     * Guilds the current user has access to.
      *
      * @return array
      */
@@ -40,7 +40,7 @@ class Discord
             [
                 'headers'     => [
                     'Authorization' => 'Bearer '.$this->token(),
-                    'User-Agent'    => "LaravelRestcord (https://github.com/more-cores/laravel-restcord)",
+                    'User-Agent'    => 'LaravelRestcord (https://github.com/more-cores/laravel-restcord)',
                     'Content-Type'  => 'application/json',
                 ],
             ]

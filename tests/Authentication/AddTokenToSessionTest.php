@@ -4,8 +4,8 @@ namespace LaravelRestcord\Authentication;
 
 use Illuminate\Contracts\Session\Session;
 use LaravelRestcord\Authentication\Socialite\DiscordProvider;
-use PHPUnit\Framework\TestCase;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class AddTokenToSessionTest extends TestCase
 {
