@@ -3,14 +3,13 @@ language: php
 php:
   - 7.1
 
-addons:
-  code_climate:
-    repo_token: ${CODECLIMATE_TOKEN}
-
 before_script:
-  - composer install --prefer-source --no-interaction
+ # Take our travis-ci environment variable and update coveralls config with our token
+ - sed -ri 's/^COVERALLS_TOKEN/\$COVERALLS_TOKEN/' .coveralls.yml
+ - composer install --prefer-source --no-interaction
 
-script: vendor/bin/phpunit
+script: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
 
 after_success:
-  - vendor/bin/test-reporter
+  - travis_retry php vendor/bin/coveralls
