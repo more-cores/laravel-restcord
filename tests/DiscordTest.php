@@ -26,10 +26,10 @@ class DiscordTest extends TestCase
     /** @test */
     public function listsCurrentUserGuilds()
     {
-        $this->api->shouldReceive('get')->with('https://discordapp.com/api/users/@me/guilds')->andReturn([
+        $this->api->shouldReceive('get')->with('https://discordapp.com/api/users/@me/guilds')->andReturn([[
             'id'    => $id = time(),
             'name'  => $name = uniqid(),
-        ]);
+        ]]);
 
         $guilds = $this->discord->guilds();
 
