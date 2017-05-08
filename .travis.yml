@@ -8,7 +8,7 @@ php:
 before_install:
  # Take our travis-ci environment variable and update coveralls config with our token
  #- sed -i 's/COVERALLS_TOKEN/${COVERALLS_TOKEN}/g' .coveralls.yml
- - sed -ri 's/^COVERALLS_TOKEN/'"$COVERALLS_TOKEN"'/' .coveralls.yml
+ - sed -ri 's/^COVERALLS_TOKEN/"$COVERALLS_TOKEN"/' .coveralls.yml
  - cat .coveralls.yml
 
 #install:
