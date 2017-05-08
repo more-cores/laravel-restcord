@@ -6,7 +6,7 @@ use Illuminate\Support\Fluent;
 
 class Guild extends Fluent
 {
-    public function id() : string
+    public function id() : int
     {
         return $this->id;
     }

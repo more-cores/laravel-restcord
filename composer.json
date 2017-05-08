@@ -18,7 +18,8 @@
     "symfony/var-dumper": "dev-master",
     "mockery/mockery": "1.0.0-alpha1",
     "phpunit/phpunit": "5.*",
-    "socialiteproviders/discord": "2.*"
+    "socialiteproviders/discord": "2.*",
+    "codeclimate/php-test-reporter": "dev-master"
   },
   "autoload-dev": {
     "classmap": [

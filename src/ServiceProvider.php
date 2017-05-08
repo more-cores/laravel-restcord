@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Laravel\Lumen\Application as LumenApplication;
 use LaravelRestcord\Authentication\AddTokenToSession;
+use LaravelRestcord\Discord\ApiClient;
 use RestCord\DiscordClient;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -40,7 +41,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
 
         $this->app->bind(Discord::class, function ($app) {
-            return new Discord(session('discord_token'));
+            return new Discord(new ApiClient(session('discord_token')));
         });
 
         $this->app->bind(DiscordClient::class, function ($app) {

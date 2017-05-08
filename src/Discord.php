@@ -3,52 +3,36 @@
 namespace LaravelRestcord;
 
 use GuzzleHttp\Client;
+use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Guild;
 
 class Discord
 {
-    /** @var string */
-    protected $token;
+    /** @var ApiClient */
+    protected $api;
 
-    public function __construct(string $token)
+    public function __construct(ApiClient $apiClient)
     {
-        $this->token = $token;
+        $this->api = $apiClient;
     }
 
     /**
-     * Guilds the current user has access to.
+     * Guilds the current user has access to.  This is an abbreviated
+     * version of the guilds endpoint so limited fields are provided.
+     *
+     * @see https://discordapp.com/developers/docs/resources/user#user-guild-object
      *
      * @return array
      */
     public function guilds() : array
     {
-        $response = $this->client()->get('https://discordapp.com/api/users/@me/guilds');
-
-        $json = json_decode($response->getBody()->getContents(), true);
+        $listOfGuilds = $this->api->get('https://discordapp.com/api/users/@me/guilds');
 
         $guilds = [];
-        foreach ($json as $guild) {
-            $guilds[] = new Guild($guild);
+        foreach ($listOfGuilds as $guildData) {
+            $guilds[] = new Guild($guildData);
         }
 
         return $guilds;
-    }
-
-    public function client() : Client
-    {
-        return new Client(
-            [
-                'headers'     => [
-                    'Authorization' => 'Bearer '.$this->token(),
-                    'User-Agent'    => 'LaravelRestcord (https://github.com/more-cores/laravel-restcord)',
-                    'Content-Type'  => 'application/json',
-                ],
-            ]
-        );
-    }
-
-    public function token() : string
-    {
-        return $this->token;
     }
 }

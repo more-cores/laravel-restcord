@@ -3,7 +3,14 @@ language: php
 php:
   - 7.1
 
+addons:
+  code_climate:
+    repo_token: ${CODECLIMATE_TOKEN}
+
 before_script:
   - composer install --prefer-source --no-interaction
 
 script: vendor/bin/phpunit
+
+after_success:
+  - vendor/bin/test-reporter
