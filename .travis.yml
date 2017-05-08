@@ -6,7 +6,7 @@ php:
 before_script:
  # Take our travis-ci environment variable and update coveralls config with our token
  - sed -ri 's/^COVERALLS_TOKEN/\$COVERALLS_TOKEN/' .coveralls.yml
-  - cat .coveralls.yml
+ - cat .coveralls.yml
  - composer install --prefer-source --no-interaction
 
 script: vendor/bin/phpunit --coverage-clover clover.xml
