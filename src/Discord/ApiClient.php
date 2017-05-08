@@ -23,7 +23,7 @@ class ApiClient
     }
 
     /**
-     * Allows client to be overridden for testing purposes
+     * Allows client to be overridden for testing purposes.
      */
     public function setGuzzleClient(Client $client)
     {
@@ -39,6 +39,7 @@ class ApiClient
     {
         $response = $this->client->get($uri, $options);
         $responseBody = $response->getBody()->getContents();
+
         return \GuzzleHttp\json_decode($responseBody, true);
     }
 }

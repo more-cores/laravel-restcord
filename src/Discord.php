@@ -2,7 +2,6 @@
 
 namespace LaravelRestcord;
 
-use GuzzleHttp\Client;
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Guild;
 
