@@ -5,11 +5,11 @@ php:
 
 before_install:
  # Take our travis-ci environment variable and update coveralls config with our token
- - sed -ri 's/^COVERALLS_TOKEN/POOP/' .coveralls.yml
+ - sed -ri 's/^COVERALLS_TOKEN/POOP/g' .coveralls.yml
  - cat .coveralls.yml
 
-install:
- - composer install --prefer-source --no-interaction
+#install:
+# - composer install --prefer-source --no-interaction
 
 #script: vendor/bin/phpunit --coverage-clover clover.xml
 
