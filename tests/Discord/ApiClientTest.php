@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-class AddTokenToSessionTest extends TestCase
+class ApiClientTest extends TestCase
 {
     /** @var ApiClient */
     protected $apiClient;
@@ -41,7 +41,7 @@ class AddTokenToSessionTest extends TestCase
         $options = [];
         $uri = uniqid();
         $requestData = [
-            'key' => 'value'
+            'key' => 'value',
         ];
 
         // Following the PSR standards for requests leads to a lot of shenanigans

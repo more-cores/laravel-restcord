@@ -2,13 +2,8 @@
 
 namespace LaravelRestcord;
 
-use GuzzleHttp\Client;
-use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Guild;
-use Mockery;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 class GuildTest extends TestCase
 {
