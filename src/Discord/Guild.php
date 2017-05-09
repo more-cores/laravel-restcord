@@ -23,6 +23,6 @@ class Guild extends Fluent
 
     public function icon() : string
     {
-        return $this->icon;
+        return 'https://cdn.discordapp.com/icons/' . $this->id() . '/' . $this->icon . '.jpg';
     }
 }
