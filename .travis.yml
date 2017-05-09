@@ -1,20 +1,9 @@
 language: php
 
-services: docker
-
 php:
   - 7.1
 
-before_install:
- # Take our travis-ci environment variable and update coveralls config with our token
- #- sed -i 's/COVERALLS_TOKEN/${COVERALLS_TOKEN}/g' .coveralls.yml
- - sed -ri 's/^COVERALLS_TOKEN/"$COVERALLS_TOKEN"/' .coveralls.yml
- - cat .coveralls.yml
+install:
+ - composer install --prefer-source --no-interaction
 
-#install:
-# - composer install --prefer-source --no-interaction
-
-#script: vendor/bin/phpunit --coverage-clover clover.xml
-
-#after_success:
-#  - travis_retry php vendor/bin/coveralls -v
+script: vendor/bin/phpunit --coverage-clover clover.xml
