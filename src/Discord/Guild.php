@@ -21,8 +21,8 @@ class Guild extends Fluent
         return $this->icon != null;
     }
 
-    public function icon() : string
+    public function iconUrl() : string
     {
-        return 'https://cdn.discordapp.com/icons/' . $this->id() . '/' . $this->icon . '.jpg';
+        return 'https://cdn.discordapp.com/icons/'.$this->id().'/'.$this->icon.'.jpg';
     }
 }
