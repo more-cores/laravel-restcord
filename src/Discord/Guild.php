@@ -16,6 +16,11 @@ class Guild extends Fluent
         return $this->name;
     }
 
+    public function hasIcon() : bool
+    {
+        return $this->icon != null;
+    }
+
     public function icon() : string
     {
         return $this->icon;
