@@ -18,7 +18,7 @@ class GuildTest extends TestCase
 
         $this->assertEquals($id, $guild->id());
         $this->assertEquals($name, $guild->name());
-        $this->assertEquals('https://cdn.discordapp.com/icons/'.$guild->id().'/'.$icon.'.jpg', $guild->icon());
+        $this->assertEquals('https://cdn.discordapp.com/icons/'.$guild->id().'/'.$icon.'.jpg', $guild->iconUrl());
         $this->assertTrue($guild->hasIcon());
     }
 
