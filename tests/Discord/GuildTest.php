@@ -19,5 +19,14 @@ class GuildTest extends TestCase
         $this->assertEquals($id, $guild->id());
         $this->assertEquals($name, $guild->name());
         $this->assertEquals($icon, $guild->icon());
+        $this->assertTrue($guild->hasIcon());
+    }
+
+    /** @test */
+    public function recognizesWhenIconIsMissing()
+    {
+        $guild = new Guild();
+
+        $this->assertFalse($guild->hasIcon());
     }
 }
