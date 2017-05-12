@@ -7,6 +7,12 @@ install:
   - composer install --prefer-source --no-interaction
 
 before_script:
+  # Take the travis-ci env var and put it in our configuration locally
   - sed -ri "s/COVERALLS_TOKEN=/COVERALLS_TOKEN='$COVERALLS_TOKEN'/" .coveralls.yml
 
-script: vendor/bin/phpunit --coverage-clover clover.xml
+script:
+  - vendor/bin/phpunit --coverage-clover clover.xml
+
+after_success:
+  # Push clover report to coveralls
+  - travis_retry php vendor/bin/coveralls

@@ -10,6 +10,12 @@ use LaravelRestcord\Authentication\AddTokenToSession;
 use LaravelRestcord\Discord\ApiClient;
 use RestCord\DiscordClient;
 
+/**
+ * @codeCoverageIgnore
+ *
+ * We don't test service providers because it would require pulling the entire Laravel framework
+ * in this repo which is a bit of overkill.
+ */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
