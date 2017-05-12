@@ -15,4 +15,4 @@ script:
 
 after_success:
   # Push clover report to coveralls
-  - travis_retry php vendor/bin/coveralls
+  - travis_retry php vendor/bin/coveralls -v
