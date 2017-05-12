@@ -13,6 +13,11 @@ before_script:
   - sed -ri "s/COVERALLS_TOKEN/$COVERALLS_TOKEN/" .coveralls.yml
   - cat .coveralls.yml
 
+  # Gets coveralls working in Travis-CI - see https://github.com/satooshi/php-coveralls/issues/61#issuecomment-166434043
+  - export CI_BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"
+  - export CI_PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+  - export CI_BRANCH="$TRAVIS_BRANCH"
+
 script:
   - vendor/bin/phpunit --coverage-clover clover.xml
 
