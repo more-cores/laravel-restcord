@@ -4,6 +4,8 @@ php:
   - 7.1
 
 install:
+  # Speed up installing dependencies
+  - composer global require hirak/prestissimo
   - composer install --prefer-source --no-interaction
 
 before_script:
