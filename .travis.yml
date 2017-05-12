@@ -9,6 +9,7 @@ install:
 before_script:
   # Take the travis-ci env var and put it in our configuration locally
   - sed -ri "s/COVERALLS_TOKEN/$COVERALLS_TOKEN/" .coveralls.yml
+  - cat .coveralls.yml
 
 script:
   - vendor/bin/phpunit --coverage-clover clover.xml
