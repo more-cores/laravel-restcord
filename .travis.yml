@@ -4,6 +4,9 @@ php:
   - 7.1
 
 install:
- - composer install --prefer-source --no-interaction
+  - composer install --prefer-source --no-interaction
+
+before_script:
+  - sed -ri "s/COVERALLS_TOKEN=/COVERALLS_TOKEN='$COVERALLS_TOKEN'/" .coveralls.yml
 
 script: vendor/bin/phpunit --coverage-clover clover.xml
