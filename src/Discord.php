@@ -2,6 +2,7 @@
 
 namespace LaravelRestcord;
 
+use Illuminate\Support\Collection;
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Guild;
 
@@ -23,7 +24,7 @@ class Discord
      *
      * @return array
      */
-    public function guilds() : array
+    public function guilds() : Collection
     {
         $listOfGuilds = $this->api->get('https://discordapp.com/api/users/@me/guilds');
 
@@ -32,6 +33,6 @@ class Discord
             $guilds[] = new Guild($guildData);
         }
 
-        return $guilds;
+        return new Collection($guilds);
     }
 }
