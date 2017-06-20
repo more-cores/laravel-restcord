@@ -4,8 +4,8 @@ namespace LaravelRestcord;
 
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Webhook;
-use PHPUnit\Framework\TestCase;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class WebhookTest extends TestCase
 {
@@ -24,10 +24,10 @@ class WebhookTest extends TestCase
     {
         $guild = new Webhook([
             'id'            => $id = time(),
-            'guild_id'      => $guildId = time()+rand(400, 600),
-            'channel_id'    => $channelId = time()+rand(200, 399),
+            'guild_id'      => $guildId = time() + rand(400, 600),
+            'channel_id'    => $channelId = time() + rand(200, 399),
             'name'          => $name = uniqid(),
-            'token'         => $token = time()+rand(1, 199),
+            'token'         => $token = time() + rand(1, 199),
         ], $this->api);
 
         $this->assertEquals($id, $guild->id());
