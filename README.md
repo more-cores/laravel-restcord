@@ -48,11 +48,13 @@ In your controller, send the user to Discord to create the webhook in their UI:
 ```php
     public function show(Guild $guild)
     {
-        $guild->createWebhook(new Subscribe());
+        // redirects the user to Discord's interface for selecting
+        // a guild and channel for the webhook
+        $guild->createWebhook();
     }
 ```
 
-They'll then be prompted to choose a guild and channel for the webhook.  Listen for the event so you can save the webhook token when the user is redirected back to your application:
+Listen for the event so you can save the webhook token when the user is redirected back to your application:
 
 ```php
     protected $listen = [

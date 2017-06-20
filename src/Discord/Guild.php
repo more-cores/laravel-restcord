@@ -27,9 +27,9 @@ class Guild extends Fluent
         return 'https://cdn.discordapp.com/icons/'.$this->id().'/'.$this->icon.'.jpg';
     }
 
-    public function createWebhook(WebhookCallback $webhookCallback)
+    public function createWebhook()
     {
-        header('Location: '.ApiClient::API_URL.'/oauth2/authorize?client_id='.Discord::key().'&scope=webhook.incoming&redirect_uri='.urlencode($webhookCallback->callbackUrl()).'&response_type=code');
+        header('Location: '.ApiClient::API_URL.'/oauth2/authorize?client_id='.Discord::key().'&scope=webhook.incoming&redirect_uri='.urlencode(Discord::callbackUrl().'/create-webhook').'&response_type=code');
         exit;
     }
 }
