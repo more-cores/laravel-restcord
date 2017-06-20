@@ -4,8 +4,8 @@ namespace LaravelRestcord;
 
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Channel;
-use PHPUnit\Framework\TestCase;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class ChannelTest extends TestCase
 {

@@ -2,11 +2,11 @@
 
 namespace LaravelRestcord\Http;
 
-use LaravelRestcord\Discord;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use LaravelRestcord\Discord;
 use LaravelRestcord\Discord\Webhook;
 use LaravelRestcord\Discord\WebhookCreated;
 
@@ -21,16 +21,16 @@ class WebhookCallback
     ) {
         $response = $client->post('https://discordapp.com/api/oauth2/token', [
             'headers' => [
-                'Accept' => 'application/json'
+                'Accept' => 'application/json',
             ],
             'form_params' => [
-                'grant_type' => 'authorization_code',
-                'client_id' => env('DISCORD_KEY'),
+                'grant_type'    => 'authorization_code',
+                'client_id'     => env('DISCORD_KEY'),
                 'client_secret' => env('DISCORD_SECRET'),
-                'code' => $request->get('code'),
+                'code'          => $request->get('code'),
 
-                # this endpoint is never hit, it just needs to be here for OAuth compatibility
-                'redirect_uri' => $urlGenerator->to(Discord::callbackUrl().'/create-webhook')
+                // this endpoint is never hit, it just needs to be here for OAuth compatibility
+                'redirect_uri' => $urlGenerator->to(Discord::callbackUrl().'/create-webhook'),
             ],
         ]);
 

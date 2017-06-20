@@ -3,7 +3,6 @@
 namespace LaravelRestcord\Discord;
 
 use Illuminate\Support\Fluent;
-use LaravelRestcord\Discord;
 
 class Webhook extends Fluent
 {
