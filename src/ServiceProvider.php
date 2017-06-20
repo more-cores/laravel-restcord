@@ -5,9 +5,12 @@ namespace LaravelRestcord;
 use Event;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Illuminate\Routing\Router;
 use Laravel\Lumen\Application as LumenApplication;
 use LaravelRestcord\Authentication\AddTokenToSession;
 use LaravelRestcord\Discord\ApiClient;
+use LaravelRestcord\Http\Middleware\InstantiateApiClientWithTokenFromSession;
+use LaravelRestcord\Http\WebhookCallback;
 use RestCord\DiscordClient;
 
 /**
@@ -23,7 +26,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Router $router)
     {
         $source = realpath($raw = __DIR__.'/../config/laravel-restcord.php') ?: $raw;
         if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
@@ -32,6 +35,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $this->app->configure('laravel-restcord');
         }
         $this->mergeConfigFrom($source, 'laravel-restcord');
+
+        $router->get('/discord/create-webhook', WebhookCallback::class.'@createWebhook');
     }
 
     /**
@@ -41,15 +46,22 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
+        Discord::setKey(env('DISCORD_KEY', ''));
+        Discord::setCallbackUrl(env('APP_URL', ''));
+
         // upon login add the token to session if using Discord's socialite
         if (class_exists('SocialiteProviders\Discord\DiscordExtendSocialite')) {
             Event::listen(Login::class, AddTokenToSession::class);
         }
 
-        $this->app->bind(Discord::class, function ($app) {
-            return new Discord(new ApiClient(session('discord_token')));
+        // Use our middleware to configure the ApiClient to be bootstrapped with
+        // the Discord token
+        $this->app['router']->aliasMiddleware('sessionHasDiscordToken', InstantiateApiClientWithTokenFromSession::class);
+        $this->app->bind(ApiClient::class, function ($app) {
+            return new ApiClient(session('discord_token'));
         });
 
+        // Configure Restcord's DiscordClient with some laravel components
         $this->app->bind(DiscordClient::class, function ($app) {
             $config = $app['config']['laravel-restcord'];
 
@@ -75,6 +87,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function provides()
     {
         return [
+            ApiClient::class,
             DiscordClient::class,
         ];
     }

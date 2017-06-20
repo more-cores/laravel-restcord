@@ -26,7 +26,7 @@ class DiscordTest extends TestCase
     /** @test */
     public function listsCurrentUserGuilds()
     {
-        $this->api->shouldReceive('get')->with('https://discordapp.com/api/users/@me/guilds')->andReturn([[
+        $this->api->shouldReceive('get')->with('/users/@me/guilds')->andReturn([[
             'id'    => $id = time(),
             'name'  => $name = uniqid(),
         ]]);
@@ -38,5 +38,16 @@ class DiscordTest extends TestCase
 
         $this->assertEquals($id, $guilds[0]->id());
         $this->assertEquals($name, $guilds[0]->name());
+    }
+
+    /** @test */
+    public function canHandleClient()
+    {
+        $this->discord = new Discord();
+        $this->assertNull(Discord::client());
+
+        Discord::setClient($this->api);
+
+        $this->assertEquals($this->api, Discord::client());
     }
 }

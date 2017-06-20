@@ -9,11 +9,19 @@ use LaravelRestcord\Discord\Guild;
 class Discord
 {
     /** @var ApiClient */
-    protected $api;
+    public static $api;
 
-    public function __construct(ApiClient $apiClient)
+    /** @var string */
+    public static $key;
+
+    /** @var string */
+    public static $callbackUrl;
+
+    public function __construct(?ApiClient $apiClient = null)
     {
-        $this->api = $apiClient;
+        if ($apiClient != null) {
+            self::$api = $apiClient;
+        }
     }
 
     /**
@@ -26,7 +34,7 @@ class Discord
      */
     public function guilds() : Collection
     {
-        $listOfGuilds = $this->api->get('https://discordapp.com/api/users/@me/guilds');
+        $listOfGuilds = self::$api->get('/users/@me/guilds');
 
         $guilds = [];
         foreach ($listOfGuilds as $guildData) {
@@ -34,5 +42,39 @@ class Discord
         }
 
         return new Collection($guilds);
+    }
+
+    /**
+     * Maintaining static accessibility on the client allows us to use this throughout
+     * other classes in the package without constantly passing around the dependency.
+     */
+    public static function client() : ApiClient
+    {
+        return self::$api;
+    }
+
+    public static function setClient(ApiClient $apiClient)
+    {
+        self::$api = $apiClient;
+    }
+
+    public static function setKey(string $key)
+    {
+        self::$key = $key;
+    }
+
+    public static function key() : string
+    {
+        return self::$key;
+    }
+
+    public static function setCallbackUrl(string $callbackUrl)
+    {
+        self::$callbackUrl = $callbackUrl;
+    }
+
+    public static function callbackUrl() : string
+    {
+        return self::$callbackUrl.'/discord';
     }
 }

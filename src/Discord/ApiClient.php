@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 
 class ApiClient
 {
+    const API_URL = 'https://discordapp.com/api';
+
     /** @var Client */
     protected $client;
 
@@ -37,7 +39,7 @@ class ApiClient
 
     public function get(string $uri, array $options = []) : array
     {
-        $response = $this->client->get($uri, $options);
+        $response = $this->client->get(self::API_URL.$uri, $options);
         $responseBody = $response->getBody()->getContents();
 
         return \GuzzleHttp\json_decode($responseBody, true);

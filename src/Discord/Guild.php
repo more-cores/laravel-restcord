@@ -3,6 +3,7 @@
 namespace LaravelRestcord\Discord;
 
 use Illuminate\Support\Fluent;
+use LaravelRestcord\Discord;
 
 class Guild extends Fluent
 {
@@ -24,5 +25,11 @@ class Guild extends Fluent
     public function iconUrl() : string
     {
         return 'https://cdn.discordapp.com/icons/'.$this->id().'/'.$this->icon.'.jpg';
+    }
+
+    public function createWebhook(WebhookCallback $webhookCallback)
+    {
+        header('Location: '.ApiClient::API_URL.'/oauth2/authorize?client_id='.Discord::key().'&scope=webhook.incoming&redirect_uri='.urlencode($webhookCallback->callbackUrl()).'&response_type=code');
+        exit;
     }
 }
