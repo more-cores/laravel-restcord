@@ -17,7 +17,8 @@ class WebhookCreatedTest extends TestCase
     {
         $webhook = new Webhook();
 
-        $webhookCreated = new WebhookCreated($webhook);
+        $webhookCreated = new WebhookCreated();
+        $webhookCreated->setWebhook($webhook);
 
         $this->assertEquals($webhook, $webhookCreated->webhook());
     }

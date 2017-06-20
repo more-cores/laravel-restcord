@@ -44,7 +44,6 @@ class DiscordTest extends TestCase
     public function canHandleClient()
     {
         $this->discord = new Discord();
-        $this->assertNull(Discord::client());
 
         Discord::setClient($this->api);
 
