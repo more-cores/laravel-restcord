@@ -49,4 +49,24 @@ class DiscordTest extends TestCase
 
         $this->assertEquals($this->api, Discord::client());
     }
+
+    /** @test */
+    public function canSetKey()
+    {
+        $key = uniqid();
+
+        Discord::setKey($key);
+
+        $this->assertEquals($key, Discord::key());
+    }
+
+    /** @test */
+    public function canSetCallbackUrl()
+    {
+        $callbackUrl = uniqid();
+
+        Discord::setKey($callbackUrl);
+
+        $this->assertEquals($callbackUrl, Discord::callbackUrl());
+    }
 }
