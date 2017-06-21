@@ -8,12 +8,11 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
-use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Webhook;
 use LaravelRestcord\Discord\WebhookCreated;
 use LaravelRestcord\Http\WebhookCallback;
-use PHPUnit\Framework\TestCase;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class WebhookCallbackTest extends TestCase
 {
@@ -52,28 +51,28 @@ class WebhookCallbackTest extends TestCase
     public function createsWebhook()
     {
         $webhookData = [
-            'id' => time()
+            'id' => time(),
         ];
         $this->urlGenerator->shouldReceive('to')->with('/discord/create-webhook')->andReturn($url = uniqid());
         $this->request->shouldReceive('get')->with('code')->andReturn($code = uniqid());
 
         $stream = Mockery::mock(StreamInterface::class);
         $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode([
-            'webhook' => $webhookData
+            'webhook' => $webhookData,
         ]));
         $response = Mockery::mock(Response::class);
         $response->shouldReceive('getBody')->andReturn($stream);
 
         $this->client->shouldReceive('post')->with('https://discordapp.com/api/oauth2/token', [
             'headers' => [
-                'Accept' => 'application/json'
+                'Accept' => 'application/json',
             ],
             'form_params' => [
-                'grant_type' => 'authorization_code',
-                'client_id' => env('DISCORD_KEY'),
+                'grant_type'    => 'authorization_code',
+                'client_id'     => env('DISCORD_KEY'),
                 'client_secret' => env('DISCORD_SECRET'),
-                'code' => $code,
-                'redirect_uri' => $url
+                'code'          => $code,
+                'redirect_uri'  => $url,
             ],
         ])->andReturn($response);
 
