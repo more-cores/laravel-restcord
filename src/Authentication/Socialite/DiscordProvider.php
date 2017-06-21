@@ -4,6 +4,9 @@ namespace LaravelRestcord\Authentication\Socialite;
 
 use SocialiteProviders\Discord\Provider;
 
+/**
+ * @codecoverageignore
+ */
 class DiscordProvider extends Provider
 {
     public static $token = null;
