@@ -69,7 +69,7 @@ class DiscordTest extends TestCase
 
         $this->assertEquals($callbackUrl.'/discord', Discord::callbackUrl());
 
-        # reset callback url
+        // reset callback url
         Discord::setCallbackUrl('');
     }
 }
