@@ -51,7 +51,7 @@ class ApiClientTest extends TestCase
         $response->shouldReceive('getBody')->andReturn($stream);
 
         $client = Mockery::mock(Client::class);
-        $client->shouldReceive('get')->with($uri, $options)->andReturn($response);
+        $client->shouldReceive('get')->with(ApiClient::API_URL.$uri, $options)->andReturn($response);
 
         $this->apiClient->setGuzzleClient($client);
 
