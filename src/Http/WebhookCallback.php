@@ -4,14 +4,13 @@ namespace LaravelRestcord\Http;
 
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use LaravelRestcord\Discord;
-use LaravelRestcord\Discord\Webhook;
 use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
+use LaravelRestcord\Discord\Webhook;
 
 class WebhookCallback
 {
