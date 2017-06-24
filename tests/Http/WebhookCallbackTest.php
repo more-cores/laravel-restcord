@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
 use LaravelRestcord\Discord\Webhook;
@@ -83,7 +84,7 @@ class WebhookCallbackTest extends TestCase
 
         $webhookCreatedHandler = uniqid();
         $this->config->shouldReceive('get')->with('laravel-restcord.webhook-created-handler')->andReturn($webhookCreatedHandler);
-        $controllerResponse = Mockery::mock(\Illuminate\Http\Response::class);
+        $controllerResponse = Mockery::mock(RedirectResponse::class);
         $handlesWebhookCreated = Mockery::mock(HandlesDiscordWebhooksBeingCreated::class);
         $handlesWebhookCreated->shouldReceive('webhookCreated')->with(Mockery::on(function ($arg) {
             return Webhook::class == get_class($arg);
