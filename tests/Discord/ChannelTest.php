@@ -56,4 +56,20 @@ class ChannelTest extends TestCase
         $this->assertTrue($channel->isText());
         $this->assertFalse($channel->isVoice());
     }
+
+    /** @test */
+    public function getChannelsById()
+    {
+        $channel = new Channel([], $this->api);
+        $id = time();
+        $channelData = [
+            'name' => $name = uniqid()
+        ];
+
+        $this->api->shouldReceive('get')->with('/channels/'.$id)->andReturn($channelData);
+
+        $obtainedChannel = $channel->getById($id);
+
+        $this->assertEquals($name, $obtainedChannel->name());
+    }
 }
