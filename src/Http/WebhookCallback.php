@@ -9,9 +9,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use LaravelRestcord\Discord;
-use LaravelRestcord\Discord\Webhooks\HandlesDiscordWebhooksBeingCreated;
 use LaravelRestcord\Discord\ErrorFactory;
 use LaravelRestcord\Discord\Webhook;
+use LaravelRestcord\Discord\Webhooks\HandlesDiscordWebhooksBeingCreated;
 
 class WebhookCallback
 {

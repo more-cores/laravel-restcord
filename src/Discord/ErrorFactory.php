@@ -12,7 +12,5 @@ class ErrorFactory
         if ($code == 30007) {
             return new TooManyWebhooks($message, $code);
         }
-
-        return null;
     }
 }

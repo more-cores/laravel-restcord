@@ -12,8 +12,8 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use LaravelRestcord\Discord\ErrorFactory;
-use LaravelRestcord\Discord\Webhooks\HandlesDiscordWebhooksBeingCreated;
 use LaravelRestcord\Discord\Webhook;
+use LaravelRestcord\Discord\Webhooks\HandlesDiscordWebhooksBeingCreated;
 use LaravelRestcord\Http\WebhookCallback;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -119,8 +119,8 @@ class WebhookCallbackTest extends TestCase
 
         $stream = Mockery::mock(StreamInterface::class);
         $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode([
-            'code' => $code = time(),
-            'message' => $message = uniqid()
+            'code'    => $code = time(),
+            'message' => $message = uniqid(),
         ]));
         $response = Mockery::mock(Response::class);
         $response->shouldReceive('getBody')->andReturn($stream);
@@ -159,8 +159,8 @@ class WebhookCallbackTest extends TestCase
 
         $stream = Mockery::mock(StreamInterface::class);
         $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode([
-            'code' => $code = time(),
-            'message' => $message = uniqid()
+            'code'    => $code = time(),
+            'message' => $message = uniqid(),
         ]));
         $response = Mockery::mock(Response::class);
         $response->shouldReceive('getBody')->andReturn($stream);

@@ -2,9 +2,9 @@
 
 namespace LaravelRestcord\Discord\Webhooks;
 
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use LaravelRestcord\Discord\Webhook;
-use Exception;
 use PHPUnit\Framework\TestCase;
 
 class HandlesDiscordWebhooksBeingCreatedTest extends TestCase
@@ -42,6 +42,5 @@ class WebhookHandlerStub
      */
     public function webhookCreated(Webhook $webhook): RedirectResponse
     {
-
     }
 }

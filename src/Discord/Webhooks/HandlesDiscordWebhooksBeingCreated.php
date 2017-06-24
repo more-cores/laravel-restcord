@@ -2,8 +2,8 @@
 
 namespace LaravelRestcord\Discord\Webhooks;
 
-use Illuminate\Http\RedirectResponse;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use LaravelRestcord\Discord\Webhook;
 
 trait HandlesDiscordWebhooksBeingCreated

@@ -6,5 +6,4 @@ use LaravelRestcord\Exception;
 
 class TooManyWebhooks extends Exception
 {
-
 }
