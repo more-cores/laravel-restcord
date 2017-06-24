@@ -36,7 +36,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
         $this->mergeConfigFrom($source, 'laravel-restcord');
 
-        $router->get('/discord/create-webhook', WebhookCallback::class.'@createWebhook');
+        // Use our middleware to configure the ApiClient to be bootstrapped with
+        // the Discord token
+        $router->aliasMiddleware('sessionHasDiscordToken', InstantiateApiClientWithTokenFromSession::class);
+        $router->group([
+            'middleware' => 'sessionHasDiscordToken',
+        ], function () use ($router) {
+            $router->get('/discord/create-webhook', WebhookCallback::class.'@createWebhook');
+        });
     }
 
     /**
@@ -54,9 +61,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             Event::listen(Login::class, AddTokenToSession::class);
         }
 
-        // Use our middleware to configure the ApiClient to be bootstrapped with
-        // the Discord token
-        $this->app['router']->aliasMiddleware('sessionHasDiscordToken', InstantiateApiClientWithTokenFromSession::class);
         $this->app->bind(ApiClient::class, function ($app) {
             return new ApiClient(session('discord_token'));
         });
