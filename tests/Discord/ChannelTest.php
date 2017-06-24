@@ -63,7 +63,7 @@ class ChannelTest extends TestCase
         $channel = new Channel([], $this->api);
         $id = time();
         $channelData = [
-            'name' => $name = uniqid()
+            'name' => $name = uniqid(),
         ];
 
         $this->api->shouldReceive('get')->with('/channels/'.$id)->andReturn($channelData);

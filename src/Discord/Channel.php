@@ -54,6 +54,6 @@ class Channel extends Fluent
     {
         $channelData = $this->api->get('/channels/'.$id);
 
-        return new Channel($channelData, $this->api);
+        return new self($channelData, $this->api);
     }
 }
