@@ -29,38 +29,42 @@ composer require more-cores/laravel-restcord:dev-master
   
 # Usage
 
-
 ## Creating Webhooks
 
-Extend the webhook callback:
+Because we're using OAuth to create webhooks, the user will be directed to Discord's web site to select the guild/channel.  This package handles interpreting the request/response lifecycle for this, so all you need to do is build a handler: 
 
 ```php
-use LaravelRestcord\Discord\WebhookCallback;
+use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
 
-class Subscribe extends WebhookCallback
+use Illuminate\Http\Response;
+
+class Subscribe
 {
-
+    use HandlesDiscordWebhooksBeingCreated;
+    
+    public function webhookCreated(Webhook $webhook) : Response
+    {
+        // $webhook->token();
+        // Here you should save the token for use later when activating the webhook
+    }
 }
 ```
 
-In your controller, send the user to Discord to create the webhook in their UI:
+Next, configure the package to use your handler by publishing the config and configuring the `webhook-created-handler`.
+
+```shell
+ $ php artisan vendor:publish --provider=LaravelRestcord\ServiceProvider
+```
+
+Now you're ready to direct the user to Discord's web site to create the webhook:
 
 ```php
     public function show(Guild $guild)
     {
         // redirects the user to Discord's interface for selecting
         // a guild and channel for the webhook
-        $guild->createWebhook();
+        $guild->sendUserToDiscordToCreateWebhook();
     }
 ```
 
-Listen for the event so you can save the webhook token when the user is redirected back to your application:
-
-```php
-    protected $listen = [
-        LaravelRestcord\Discord\WebhookCreated::class => [
-            // save the webhook token
-        ],
-    ];
-
-```
+Your handler will be trigger when the webhook is created.

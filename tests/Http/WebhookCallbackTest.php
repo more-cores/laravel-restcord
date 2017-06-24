@@ -5,11 +5,12 @@ namespace LaravelRestcord;
 use Guzzle\Stream\StreamInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
 use LaravelRestcord\Discord\Webhook;
-use LaravelRestcord\Discord\WebhookCreated;
 use LaravelRestcord\Http\WebhookCallback;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -20,13 +21,16 @@ class WebhookCallbackTest extends TestCase
     protected $request;
 
     /** @var Mockery\MockInterface */
-    protected $dispatcher;
+    protected $application;
 
     /** @var Mockery\MockInterface */
     protected $client;
 
     /** @var Mockery\MockInterface */
-    protected $webhookCreated;
+    protected $config;
+
+    /** @var Mockery\MockInterface */
+    protected $webhookCreatedHandler;
 
     /** @var Mockery\MockInterface */
     protected $urlGenerator;
@@ -39,9 +43,10 @@ class WebhookCallbackTest extends TestCase
         parent::setUp();
 
         $this->request = Mockery::mock(Request::class);
-        $this->dispatcher = Mockery::mock(Dispatcher::class);
+        $this->application = Mockery::mock(Application::class);
+        $this->config = Mockery::mock(Repository::class);
         $this->client = Mockery::mock(Client::class);
-        $this->webhookCreated = Mockery::mock(WebhookCreated::class);
+        $this->webhookCreatedHandler = Mockery::mock(HandlesDiscordWebhooksBeingCreated::class);
         $this->urlGenerator = Mockery::mock(UrlGenerator::class);
 
         $this->webhookCallback = new WebhookCallback();
@@ -76,17 +81,21 @@ class WebhookCallbackTest extends TestCase
             ],
         ])->andReturn($response);
 
-        $this->dispatcher->shouldReceive('dispatch')->with($this->webhookCreated);
-        $this->webhookCreated->shouldReceive('setWebhook')->with(Mockery::on(function ($arg) {
+        $webhookCreatedHandler = uniqid();
+        $this->config->shouldReceive('get')->with('laravel-restcord.webhook-created-handler')->andReturn($webhookCreatedHandler);
+        $controllerResponse = Mockery::mock(\Illuminate\Http\Response::class);
+        $handlesWebhookCreated = Mockery::mock(HandlesDiscordWebhooksBeingCreated::class);
+        $handlesWebhookCreated->shouldReceive('webhookCreated')->with(Mockery::on(function ($arg) {
             return Webhook::class == get_class($arg);
-        }));
+        }))->andReturn($controllerResponse);
+        $this->application->shouldReceive('make')->with($webhookCreatedHandler)->andReturn($handlesWebhookCreated);
 
-        $this->webhookCallback->createWebhook(
+        $this->assertEquals($controllerResponse, $this->webhookCallback->createWebhook(
             $this->request,
-            $this->dispatcher,
+            $this->application,
+            $this->config,
             $this->client,
-            $this->webhookCreated,
             $this->urlGenerator
-        );
+        ));
     }
 }
