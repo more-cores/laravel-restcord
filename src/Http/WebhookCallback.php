@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use LaravelRestcord\Discord;
 use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
 use LaravelRestcord\Discord\Webhook;
@@ -20,7 +20,7 @@ class WebhookCallback
         Repository $config,
         Client $client,
         UrlGenerator $urlGenerator
-    ) : Response {
+    ) : RedirectResponse {
         $response = $client->post('https://discordapp.com/api/oauth2/token', [
             'headers' => [
                 'Accept' => 'application/json',

@@ -2,7 +2,7 @@
 
 namespace LaravelRestcord\Discord;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 
 trait HandlesDiscordWebhooksBeingCreated
 {
@@ -12,5 +12,5 @@ trait HandlesDiscordWebhooksBeingCreated
      * what happens next.  It's a good place to save the webhook details and present
      * the user with a new screen or redirect them.
      */
-    abstract public function webhookCreated(Webhook $webhook) : Response;
+    abstract public function webhookCreated(Webhook $webhook) : RedirectResponse;
 }
