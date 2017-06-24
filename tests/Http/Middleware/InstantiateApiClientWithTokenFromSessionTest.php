@@ -2,11 +2,19 @@
 
 namespace LaravelRestcord;
 
+use Guzzle\Stream\StreamInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Http\Request;
 use LaravelRestcord\Discord\ApiClient;
+use LaravelRestcord\Discord\Webhook;
+use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
 use LaravelRestcord\Http\Middleware\InstantiateApiClientWithTokenFromSession;
+use LaravelRestcord\Http\WebhookCallback;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 

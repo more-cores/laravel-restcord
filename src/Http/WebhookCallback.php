@@ -3,22 +3,25 @@
 namespace LaravelRestcord\Http;
 
 use GuzzleHttp\Client;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use LaravelRestcord\Discord;
 use LaravelRestcord\Discord\Webhook;
-use LaravelRestcord\Discord\WebhookCreated;
+use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
 
 class WebhookCallback
 {
     public function createWebhook(
         Request $request,
-        Dispatcher $dispatcher,
+        Application $application,
+        Repository $config,
         Client $client,
-        WebhookCreated $webhookCreated,
         UrlGenerator $urlGenerator
-    ) {
+    ) : Response {
         $response = $client->post('https://discordapp.com/api/oauth2/token', [
             'headers' => [
                 'Accept' => 'application/json',
@@ -36,8 +39,11 @@ class WebhookCallback
 
         $json = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
-        $webhookCreated->setWebhook(new Webhook($json['webhook']));
+        $webhook = new Webhook($json['webhook']);
 
-        $dispatcher->dispatch($webhookCreated);
+        /** @var HandlesDiscordWebhooksBeingCreated $webhookHandler */
+        $webhookHandler = $application->make($config->get('laravel-restcord.webhook-created-handler'));
+
+        return $webhookHandler->webhookCreated($webhook);
     }
 }

@@ -7,4 +7,7 @@ return [
 
     // Whether or not an exception is thrown when a ratelimit is supposed to hit
     'throw-exception-on-rate-limit' => getenv('DISCORD_USE_EXCEPTIONS', true),
+
+    // Class to be invoked when a webhook has been created
+    'webhook-created-handler' => //MyClass::class
 ];
