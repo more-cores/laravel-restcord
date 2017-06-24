@@ -9,7 +9,7 @@ class ErrorFactory
 {
     public function make(int $code, string $message) : ?Exception
     {
-        if ($code == 30007) {
+        if ($code == TooManyWebhooks::ID) {
             return new TooManyWebhooks($message, $code);
         }
 
