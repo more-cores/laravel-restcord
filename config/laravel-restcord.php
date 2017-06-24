@@ -10,5 +10,5 @@ return [
 
     // Class to be invoked when a webhook has been created
     // replace this with your owner handler implementaton
-    'webhook-created-handler' => \LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated::class,
+    'webhook-created-handler' => \LaravelRestcord\Discord\Webhooks\HandlesDiscordWebhooksBeingCreated::class,
 ];
