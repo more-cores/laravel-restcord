@@ -40,7 +40,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         // the Discord token
         $router->aliasMiddleware('sessionHasDiscordToken', InstantiateApiClientWithTokenFromSession::class);
         $router->group([
-            'middleware' => 'sessionHasDiscordToken',
+            'middleware' => ['web', 'sessionHasDiscordToken'],
         ], function () use ($router) {
             $router->get('/discord/create-webhook', WebhookCallback::class.'@createWebhook');
         });
