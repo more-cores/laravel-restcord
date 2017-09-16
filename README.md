@@ -50,7 +50,7 @@ class Subscribe
 }
 ```
 
-Next, add a binding to your `AppServiceProvider` so the package knows which class to pass the webhook data to when the user returns to your web site.  You'll most likely want this method to redirect the user to another page, after you've had a chance to persist the webhook information.
+Next, add a binding to your `AppServiceProvider` so the package knows which class to pass the webhook data to when the user returns to your web site.  You'll need to redirect the user to another page, after you've had a chance to persist the webhook information.
 
 ```shell
  $this->app->bind(HandlesDiscordWebhooksBeingCreated::class, DiscordChannelAdded::class);
