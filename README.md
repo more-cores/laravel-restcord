@@ -29,6 +29,16 @@ composer require more-cores/laravel-restcord:dev-master
   
 # Usage
 
+Anytime you see `$discord` in this documentation it is assumed to be an instance of `LaravelRestcord\Discord\Discord::class` which is available from Laravel's IOC container.
+
+## Guilds
+
+Get a list of guilds the current user has access to:
+
+```php
+$discord->guilds() // Guild[]
+```
+
 ## Creating Webhooks
 
 Because we're using OAuth to create webhooks, the user will be directed to Discord's web site to select the guild/channel.  This package handles interpreting the request/response lifecycle for this, so all you need to do is build a handler: 
