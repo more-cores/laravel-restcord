@@ -23,10 +23,10 @@ class ChannelTest extends TestCase
     public function getsAndSetsProperties()
     {
         $channel = new Channel([
-            'id'        => $id = time()+rand(1, 400),
-            'guild_id'  => $guildId = time()+rand(10, 4000),
+            'id'        => $id = time() + rand(1, 400),
+            'guild_id'  => $guildId = time() + rand(10, 4000),
             'name'      => $name = uniqid(),
-            'position'  => $position = time()+rand(100, 40000),
+            'position'  => $position = time() + rand(100, 40000),
             'topic'     => $topic = uniqid(),
         ], $this->api);
 
