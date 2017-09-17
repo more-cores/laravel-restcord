@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use LaravelRestcord\Discord;
 use LaravelRestcord\Discord\Bots\HandlesBotAddedToGuild;
-use LaravelRestcord\Discord\Webhook;
 use PHPUnit\Framework\TestCase;
 
 class HandlesBotsAddedToGuildTest extends TestCase
@@ -43,6 +42,5 @@ class BotAddToGuildStub
      */
     public function botAdded(Discord\Guild $Guild): RedirectResponse
     {
-
     }
 }

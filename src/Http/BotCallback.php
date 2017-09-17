@@ -9,9 +9,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use LaravelRestcord\Discord;
-use LaravelRestcord\Discord\Guild;
-use LaravelRestcord\Discord\ErrorFactory;
 use LaravelRestcord\Discord\Bots\HandlesBotAddedToGuild;
+use LaravelRestcord\Discord\ErrorFactory;
+use LaravelRestcord\Discord\Guild;
 
 class BotCallback
 {
