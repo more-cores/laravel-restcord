@@ -57,4 +57,27 @@ class ApiClientTest extends TestCase
 
         $this->assertEquals($requestData, $this->apiClient->get($uri, $options));
     }
+
+    /** @test */
+    public function decodesJsonPostRequests()
+    {
+        $options = [];
+        $uri = uniqid();
+        $requestData = [
+            'key' => 'value',
+        ];
+
+        // Following the PSR standards for requests leads to a lot of shenanigans
+        $stream = Mockery::mock(StreamInterface::class);
+        $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode($requestData));
+        $response = Mockery::mock(ResponseInterface::class);
+        $response->shouldReceive('getBody')->andReturn($stream);
+
+        $client = Mockery::mock(Client::class);
+        $client->shouldReceive('post')->with(ApiClient::API_URL.$uri, $options)->andReturn($response);
+
+        $this->apiClient->setGuzzleClient($client);
+
+        $this->assertEquals($requestData, $this->apiClient->post($uri, $options));
+    }
 }
