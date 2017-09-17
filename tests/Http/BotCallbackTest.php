@@ -2,9 +2,9 @@
 
 namespace LaravelRestcord;
 
+use Guzzle\Stream\StreamInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Guzzle\Stream\StreamInterface;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
@@ -13,7 +13,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use LaravelRestcord\Discord\Bots\HandlesBotAddedToGuild;
 use LaravelRestcord\Discord\ErrorFactory;
-use LaravelRestcord\Discord\Bots\HandlesDiscordBotsBeingCreated;
 use LaravelRestcord\Discord\Guild;
 use LaravelRestcord\Http\BotCallback;
 use Mockery;
