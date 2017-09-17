@@ -39,28 +39,72 @@ Get a list of guilds the current user has access to:
 $discord->guilds() // Guild[]
 ```
 
+## Adding Bots
+
+This implementation uses the [Advanced Both Authorization](https://discordapp.com/developers/docs/topics/oauth2#advanced-bot-authorization) flow to add the bot to a guild.  You should have the **Require OAuth2 Code Grant** option _enabled_ on your app's settings.   
+
+```php
+use LaravelRestcord\Discord\HandlesBotAddedToGuild;
+use Illuminate\Http\RedirectResponse;
+
+class BotAddedToDiscordGuild
+{
+    use HandlesBotAddedToGuild;
+    
+    public function botAdded(Guild $guild) : RedirectResponse
+    {
+        // do something with the guild information the bot was added to
+        
+        return redirect('/to/this/page');
+    }
+}
+```
+
+Next, add a binding to your `AppServiceProvider` so the package knows which class to pass the guild information to when the user returns to your web site.
+
+```shell
+ $this->app->bind(HandlesBotAddedToGuild::class, BotAddedToDiscordGuild::class);
+```
+
+Now you're ready to direct the user to Discord's web site so they can select the guild to add the bot to:
+
+```php
+    public function show(Guild $guild)
+    {
+        // Reference https://discordapi.com/permissions.html to determine
+        // the permissions your bot needs
+    
+        $guild->sendUserToDiscordToAddBot($permissions);
+    }
+```
+
+This package handles the routing needs, but you need to whitelist the callback URL for this to work.  Add `http://MY-SITE.com/discord/bot-added` to your [application's redirect uris](https://discordapp.com/developers/applications/me).
+
+Your handler will be trigger when the bot has been added to a guild.
+
 ## Creating Webhooks
 
 Because we're using OAuth to create webhooks, the user will be directed to Discord's web site to select the guild/channel.  This package handles interpreting the request/response lifecycle for this, so all you need to do is build a handler: 
 
 ```php
 use LaravelRestcord\Discord\HandlesDiscordWebhooksBeingCreated;
-
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 
 class Subscribe
 {
     use HandlesDiscordWebhooksBeingCreated;
     
-    public function webhookCreated(Webhook $webhook) : Response
+    public function webhookCreated(Webhook $webhook) : RedirectResponse
     {
         // $webhook->token();
         // Here you should save the token for use later when activating the webhook
+        
+        return redirect('/to/this/page');
     }
 }
 ```
 
-Next, add a binding to your `AppServiceProvider` so the package knows which class to pass the webhook data to when the user returns to your web site.  You'll need to redirect the user to another page, after you've had a chance to persist the webhook information.
+Next, add a binding to your `AppServiceProvider` so the package knows which class to pass the webhook data to when the user returns to your web site.
 
 ```shell
  $this->app->bind(HandlesDiscordWebhooksBeingCreated::class, DiscordChannelAdded::class);
@@ -76,5 +120,7 @@ Now you're ready to direct the user to Discord's web site to create the webhook:
         $guild->sendUserToDiscordToCreateWebhook();
     }
 ```
+
+This package handles the routing needs, but you need to whitelist the callback URL for this to work.  Add `http://MY-SITE.com/discord/create-webhook` to your [application's redirect uris](https://discordapp.com/developers/applications/me). 
 
 Your handler will be trigger when the webhook is created.
