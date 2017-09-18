@@ -23,15 +23,17 @@ class ChannelTest extends TestCase
     public function getsAndSetsProperties()
     {
         $channel = new Channel([
-            'id'        => $id = time(),
-            'guild_id'  => $guildId = time(),
+            'id'        => $id = time() + rand(1, 400),
+            'guild_id'  => $guildId = time() + rand(10, 4000),
             'name'      => $name = uniqid(),
+            'position'  => $position = time() + rand(100, 40000),
             'topic'     => $topic = uniqid(),
         ], $this->api);
 
         $this->assertEquals($id, $channel->id());
         $this->assertEquals($guildId, $channel->guildId());
         $this->assertEquals($name, $channel->name());
+        $this->assertEquals($position, $channel->position());
         $this->assertEquals($topic, $channel->topic());
     }
 

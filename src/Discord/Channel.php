@@ -35,6 +35,11 @@ class Channel extends Fluent
         return $this->name;
     }
 
+    public function position() : int
+    {
+        return $this->position;
+    }
+
     public function topic() : string
     {
         return $this->topic;
