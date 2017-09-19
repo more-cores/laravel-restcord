@@ -1,5 +1,5 @@
 {
-  "name": "more-cores/restcord",
+  "name": "more-cores/laravel-restcord",
   "type": "library",
   "license": "MIT",
   "autoload": {
