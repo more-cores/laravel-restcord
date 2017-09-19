@@ -5,7 +5,8 @@ Small wrapper for [Restcord](http://www.restcord.com).
 # Features
  
  * Integrates Restcord with [Laravel Socialite](http://socialiteproviders.github.io) so currently OAuth'd user is used for api calls
- * Allows creation of webhooks via OAuth (no bot required)
+ * Handles creation of webhooks via OAuth (no bot required)
+ * Handles adding bots to to guilds via OAuth (no websocket connection required)
 
 # Installation
 
@@ -81,6 +82,14 @@ Now you're ready to direct the user to Discord's web site so they can select the
 This package handles the routing needs, but you need to whitelist the callback URL for this to work.  Add `http://MY-SITE.com/discord/bot-added` to your [application's redirect uris](https://discordapp.com/developers/applications/me).
 
 Your handler will be trigger when the bot has been added to a guild.
+
+ > You will be able to send messages via this bot once it has established a web socket connection.  It only has to do this once, so it's a common practice to use the below code snippet to do so:
+
+```js
+"use strict";
+var TOKEN="PUT YOUR TOKEN HERE";
+fetch("https://discordapp.com/api/v7/gateway").then(function(a){return a.json()}).then(function(a){var b=new WebSocket(a.url+"/?encoding=json&v=6");b.onerror=function(a){return console.error(a)},b.onmessage=function(a){try{var c=JSON.parse(a.data);0===c.op&&"READY"===c.t&&(b.close(),console.log("Successful authentication! You may now close this window!")),10===c.op&&b.send(JSON.stringify({op:2,d:{token:TOKEN,properties:{$browser:"b1nzy is a meme"},large_threshold:50}}))}catch(a){console.error(a)}}});
+```
 
 ## Creating Webhooks
 
