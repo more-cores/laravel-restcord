@@ -13,7 +13,7 @@ Small wrapper for [Restcord](http://www.restcord.com).
  1. Install package
 
 ```
-composer require more-cores/laravel-restcord:dev-master
+composer require more-cores/laravel-restcord:^1.0
 ```
 
  2. Register the [service provider](http://laravel.com/docs/master/providers) in `config/app.php`
