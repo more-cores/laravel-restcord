@@ -28,5 +28,8 @@ class DiscordExtendSocialiteTest extends TestCase
         $this->event->shouldReceive('extendSocialite')->with('discord', DiscordProvider::class)->once();
 
         $this->socialteRegistrar->handle($this->event);
+
+        // assertion is performed by Mockery, this is just to avoid this test from being risky
+        $this->assertTrue(true);
     }
 }
