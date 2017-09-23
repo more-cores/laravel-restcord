@@ -85,7 +85,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             return new DiscordClient([
                 'tokenType' => 'OAuth',
-                'token' => session('discord_token'),
+                'token'     => session('discord_token'),
 
                 // use Laravel's monologger
                 'logger' => $app['log']->getMonolog(),
