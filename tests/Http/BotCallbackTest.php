@@ -70,10 +70,10 @@ class BotCallbackTest extends TestCase
 
         $stream = Mockery::mock(StreamInterface::class);
         $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode([
-            'access_token' => $accessToken = uniqid(),
-            'expires_in' => $expiresIn = time(),
+            'access_token'  => $accessToken = uniqid(),
+            'expires_in'    => $expiresIn = time(),
             'refresh_token' => $refreshToken = uniqid(),
-            'guild' => $guildData,
+            'guild'         => $guildData,
         ]));
         $response = Mockery::mock(Response::class);
         $response->shouldReceive('getBody')->andReturn($stream);
