@@ -32,6 +32,13 @@ composer require more-cores/laravel-restcord:^1.0
 
 Anytime you see `$discord` in this documentation it is assumed to be an instance of `LaravelRestcord\Discord\Discord::class` which is available from Laravel's IOC container.
 
+## Authentication Scope (Bot vs OAuth'd User)
+
+Depending on your application, you may need to authenticate with the Discord API in 2 different ways.  Each comes with it's own api client you can inject anywhere:
+  
+  * `ApiClient` / `DiscordClient` - From the perspective of the currently OAuth'd user
+  * `BotApiClient` / `BotDiscordClient` - From the perspective of your application's bot
+
 ## Guilds
 
 Get a list of guilds the current user has access to:

@@ -9,6 +9,7 @@ use Illuminate\Routing\Router;
 use Laravel\Lumen\Application as LumenApplication;
 use LaravelRestcord\Authentication\AddTokenToSession;
 use LaravelRestcord\Discord\ApiClient;
+use LaravelRestcord\Discord\BotApiClient;
 use LaravelRestcord\Http\BotCallback;
 use LaravelRestcord\Http\Middleware\InstantiateApiClientWithTokenFromSession;
 use LaravelRestcord\Http\WebhookCallback;
@@ -68,30 +69,43 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             Event::listen(Login::class, AddTokenToSession::class);
         }
 
+        // perform actions against the Discord api using the current user's oauth token
         $this->app->bind(ApiClient::class, function ($app) {
             return new ApiClient(session('discord_token'));
+        });
+
+        // perform actions against the Discord api using the application's bot token
+        $this->app->bind(BotApiClient::class, function ($app) {
+            return new ApiClient($app['config']['laravel-restcord']['bot-token']);
         });
 
         // Configure Restcord's DiscordClient with some laravel components
         $this->app->bind(DiscordClient::class, function ($app) {
             $config = $app['config']['laravel-restcord'];
 
-            $discordClientConfig = [
+            return new DiscordClient([
+                'tokenType' => 'OAuth',
+                'token' => session('discord_token'),
+
+                // use Laravel's monologger
+                'logger' => $app['log']->getMonolog(),
+
+                'throwOnRatelimit' => $config['throw-exception-on-rate-limit'],
+            ]);
+        });
+
+        // Configure Restcord's DiscordClient with some laravel components
+        $this->app->bind(BotApiClient::class, function ($app) {
+            $config = $app['config']['laravel-restcord'];
+
+            return new DiscordClient([
                 'token' => $config['bot-token'],
 
                 // use Laravel's monologger
                 'logger' => $app['log']->getMonolog(),
 
                 'throwOnRatelimit' => $config['throw-exception-on-rate-limit'],
-            ];
-
-            // if logged in via Discord via Laravel Socialite, use that token
-            if (session()->has('discord_token')) {
-                $discordClientConfig['tokenType'] = 'OAuth';
-                $discordClientConfig['token'] = session('discord_token');
-            }
-
-            return new DiscordClient($discordClientConfig);
+            ]);
         });
     }
 
