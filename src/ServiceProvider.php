@@ -9,6 +9,7 @@ use Illuminate\Routing\Router;
 use Laravel\Lumen\Application as LumenApplication;
 use LaravelRestcord\Authentication\AddTokenToSession;
 use LaravelRestcord\Discord\ApiClient;
+use LaravelRestcord\Http\BotCallback;
 use LaravelRestcord\Http\Middleware\InstantiateApiClientWithTokenFromSession;
 use LaravelRestcord\Http\WebhookCallback;
 use RestCord\DiscordClient;
@@ -43,6 +44,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'middleware' => ['web', 'sessionHasDiscordToken'],
         ], function () use ($router) {
             $router->get('/discord/create-webhook', WebhookCallback::class.'@createWebhook');
+        });
+
+        $router->group([
+            'middleware' => ['web'],
+        ], function () use ($router) {
+            $router->get('/discord/bot-added', BotCallback::class.'@botAdded');
         });
     }
 
