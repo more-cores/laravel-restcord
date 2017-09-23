@@ -76,22 +76,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->bind(DiscordClient::class, function ($app) {
             $config = $app['config']['laravel-restcord'];
 
-            $discordClientConfig = [
+            return new DiscordClient([
                 'token' => $config['bot-token'],
 
                 // use Laravel's monologger
                 'logger' => $app['log']->getMonolog(),
 
                 'throwOnRatelimit' => $config['throw-exception-on-rate-limit'],
-            ];
-
-            // if logged in via Discord via Laravel Socialite, use that token
-            if (session()->has('discord_token')) {
-                $discordClientConfig['tokenType'] = 'OAuth';
-                $discordClientConfig['token'] = session('discord_token');
-            }
-
-            return new DiscordClient($discordClientConfig);
+            ]);
         });
     }
 
