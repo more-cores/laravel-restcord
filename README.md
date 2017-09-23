@@ -16,7 +16,7 @@ Small wrapper for [Restcord](http://www.restcord.com).
 composer require more-cores/laravel-restcord:dev-master
 ```
 
- 2. Register the [service provider](http://laravel.com/docs/master/providers) in `config/app.php`
+ 2. For Laravel <= 5.4, register the [service provider](http://laravel.com/docs/master/providers) in `config/app.php`
 
 ```php
 'providers' => [

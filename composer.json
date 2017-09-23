@@ -27,6 +27,16 @@
       "tests"
     ]
   },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "3.0-dev"
+    },
+    "laravel": {
+      "providers": [
+        "LaravelRestcord\\ServiceProvider"
+      ]
+    }
+  },
   "minimum-stability": "stable",
   "suggest": {
     "socialiteproviders/discord": "Bootstraps Restcord's API library with the currently OAuth'd user"
