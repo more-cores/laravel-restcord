@@ -42,13 +42,13 @@ class GuildTest extends TestCase
         $memberId = rand(1, 100);
 
         $guild = new Guild([
-            'id' => $guildId
+            'id' => $guildId,
         ], $this->api);
         $memberData = [
             'roles' => [
                 [
-                    'name' => $name = uniqid()
-                ]
+                    'name' => $name = uniqid(),
+                ],
             ],
         ];
 

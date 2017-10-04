@@ -61,9 +61,9 @@ class MemberTest extends TestCase
         $member = new Member([
             'roles' => [
                 $role = [
-                    'id' => $roleId = time()
-                ]
-            ]
+                    'id' => $roleId = time(),
+                ],
+            ],
         ], $this->api);
 
         $roles = $member->roles();
