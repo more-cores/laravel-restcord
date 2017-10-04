@@ -19,7 +19,7 @@ class Role extends Fluent
         }
         $this->api = $apiClient;
     }
-    
+
     public function id() : int
     {
         return $this->id;
