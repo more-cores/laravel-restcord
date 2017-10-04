@@ -7,6 +7,19 @@ use LaravelRestcord\Discord;
 
 class Guild extends Fluent
 {
+    /** @var ApiClient */
+    protected $api;
+
+    public function __construct(array $attributes = [], ?ApiClient $apiClient = null)
+    {
+        parent::__construct($attributes);
+
+        if ($apiClient == null) {
+            $apiClient = Discord::client();
+        }
+        $this->api = $apiClient;
+    }
+
     public function id() : int
     {
         return $this->id;
@@ -30,6 +43,13 @@ class Guild extends Fluent
     public function iconUrl() : string
     {
         return 'https://cdn.discordapp.com/icons/'.$this->id().'/'.$this->icon().'.jpg';
+    }
+
+    public function getMemberById(int $userId) : Member
+    {
+        $memberData = $this->api->get('/guilds/'.$this->id.'/members/'.$userId);
+
+        return new Member($memberData, $this->api);
     }
 
     /**

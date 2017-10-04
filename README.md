@@ -40,6 +40,12 @@ Get a list of guilds the current user has access to:
 $discord->guilds() // Guild[]
 ```
 
+Get a user's permissions for a guild
+
+```php
+$guild->getMemberById($discordUserId); // \LaravelRestcord\Discord\Member
+```
+
 ## Adding Bots
 
 This implementation uses the [Advanced Both Authorization](https://discordapp.com/developers/docs/topics/oauth2#advanced-bot-authorization) flow to add the bot to a guild.  You should have the **Require OAuth2 Code Grant** option _enabled_ on your app's settings.   
