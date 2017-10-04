@@ -45,7 +45,7 @@ class Role extends Fluent
      */
     public function permissions() : int
     {
-        return $this->permissions;
+        return (int) $this->permissions;
     }
 
     public function mentionable() : bool
