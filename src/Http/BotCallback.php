@@ -60,6 +60,6 @@ class BotCallback
 
         $guild = new Guild($json['guild']);
 
-        return $botAddedHandler->botAdded($guild);
+        return $botAddedHandler->botAdded($json['access_token'], $json['expires_in'], $json['refresh_token'], $guild);
     }
 }

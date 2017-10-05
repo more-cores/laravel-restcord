@@ -29,6 +29,9 @@ class AddTokenToSessionTest extends TestCase
         DiscordProvider::$token = null;
 
         $this->eventHandler->handle();
+
+        // assertion is performed by Mockery, this is just to avoid this test from being risky
+        $this->assertTrue(true);
     }
 
     /** @test */
@@ -39,5 +42,8 @@ class AddTokenToSessionTest extends TestCase
         $this->session->shouldReceive('put')->with('discord_token', DiscordProvider::$token)->once();
 
         $this->eventHandler->handle();
+
+        // assertion is performed by Mockery, this is just to avoid this test from being risky
+        $this->assertTrue(true);
     }
 }

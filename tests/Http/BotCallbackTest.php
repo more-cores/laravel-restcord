@@ -70,7 +70,10 @@ class BotCallbackTest extends TestCase
 
         $stream = Mockery::mock(StreamInterface::class);
         $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode([
-            'guild' => $guildData,
+            'access_token'  => $accessToken = uniqid(),
+            'expires_in'    => $expiresIn = time(),
+            'refresh_token' => $refreshToken = uniqid(),
+            'guild'         => $guildData,
         ]));
         $response = Mockery::mock(Response::class);
         $response->shouldReceive('getBody')->andReturn($stream);
@@ -92,7 +95,7 @@ class BotCallbackTest extends TestCase
         $this->config->shouldReceive('get')->with('laravel-restcord.bot-added-handler')->andReturn($botAddedHandlerConfig);
         $controllerResponse = Mockery::mock(RedirectResponse::class);
         $botAddedHandler = Mockery::mock(HandlesBotAddedToGuild::class);
-        $botAddedHandler->shouldReceive('botAdded')->with(Mockery::on(function ($arg) {
+        $botAddedHandler->shouldReceive('botAdded')->with($accessToken, $expiresIn, $refreshToken, Mockery::on(function ($arg) {
             return Guild::class == get_class($arg);
         }))->andReturn($controllerResponse);
         $this->application->shouldReceive('make')->with($botAddedHandlerConfig)->andReturn($botAddedHandler);

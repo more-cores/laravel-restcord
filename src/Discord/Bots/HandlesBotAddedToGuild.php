@@ -12,8 +12,12 @@ trait HandlesBotAddedToGuild
      * After adding the bot to a guild, your user will be redirected back to a controller
      * that'll interpret the response and call this method, empowering you to control
      * what happens next.
+     *
+     * If you intend to interact with this guild via your bot, you don't *need* to keep the
+     * tokens, but you may want to consider storing them anyways in case you ever want to
+     * interact with this guild using oauth instead of your bot token.
      */
-    abstract public function botAdded(Guild $guild) : RedirectResponse;
+    abstract public function botAdded(string $accessToken, int $expiresIn, string $refreshToken, Guild $guild) : RedirectResponse;
 
     /**
      * When an error occurs when adding a bot the exception will be passed here.
