@@ -15,7 +15,7 @@ A small, fluent wrapper for [Restcord](http://www.restcord.com).
 
 # Features
  
- * Integrates Restcord with [Laravel Socialite](http://socialiteproviders.github.io) so currently OAuth'd user is used for api calls
+ * Integrates Restcord with [Laravel Socialite](http://socialiteproviders.github.io) so currently OAuth'd user is used for api calls (when `sessionHasDiscordToken` middleware is used)
  * Handles creation of webhooks via OAuth (no bot required)
  * Handles adding bots to to guilds via OAuth (no websocket connection required)
  * Obtain information about a member's relationship with a guild (roles, permissions, etc.)
