@@ -74,7 +74,7 @@ class GuildTest extends TestCase
     public function authorizesPermissions()
     {
         $guild = new Guild([
-            'permissions' => Permission::SEND_MESSAGES
+            'permissions' => Permission::SEND_MESSAGES,
         ], $this->api);
 
         $this->assertFalse($guild->userCan(Permission::MANAGE_GUILD));
