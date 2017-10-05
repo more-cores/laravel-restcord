@@ -36,6 +36,30 @@ class GuildTest extends TestCase
     }
 
     /** @test */
+    public function getMemberByUserId()
+    {
+        $guildId = rand(101, 200);
+        $memberId = rand(1, 100);
+
+        $guild = new Guild([
+            'id' => $guildId,
+        ], $this->api);
+        $memberData = [
+            'roles' => [
+                [
+                    'name' => $name = uniqid(),
+                ],
+            ],
+        ];
+
+        $this->api->shouldReceive('get')->with('/guilds/'.$guildId.'/members/'.$memberId)->andReturn($memberData);
+
+        $obtainedMember = $guild->getMemberById($memberId);
+
+        $this->assertEquals($name, $obtainedMember->roles()[0]->name);
+    }
+
+    /** @test */
     public function recognizesWhenIconIsMissing()
     {
         $guild = new Guild([], $this->api);
