@@ -4,6 +4,7 @@ namespace LaravelRestcord;
 
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Guild;
+use LaravelRestcord\Discord\Permissions\Permission;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -70,10 +71,13 @@ class GuildTest extends TestCase
     }
 
     /** @test */
-    public function authorizes()
+    public function authorizesPermissions()
     {
-        $guild = new Guild([], $this->api);
+        $guild = new Guild([
+            'permissions' => Permission::SEND_MESSAGES
+        ], $this->api);
 
-        $this->assertFalse($guild->hasIcon());
+        $this->assertFalse($guild->userCan(Permission::MANAGE_GUILD));
+        $this->assertTrue($guild->userCan(Permission::SEND_MESSAGES));
     }
 }
