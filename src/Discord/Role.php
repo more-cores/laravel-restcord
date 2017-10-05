@@ -4,9 +4,13 @@ namespace LaravelRestcord\Discord;
 
 use Illuminate\Support\Fluent;
 use LaravelRestcord\Discord;
+use LaravelRestcord\Discord\Permissions\CanHavePermissions;
 
-class Role extends Fluent
+class Role extends Fluent implements CanHavePermissions
 {
+    use Discord\Permissions\HasPermissions;
+    use Discord\Permissions\ChecksPermissions;
+
     /** @var ApiClient */
     protected $api;
 

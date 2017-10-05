@@ -3,6 +3,8 @@
 namespace LaravelRestcord;
 
 use LaravelRestcord\Discord\ApiClient;
+use LaravelRestcord\Discord\Permissions\ChecksPermissions;
+use LaravelRestcord\Discord\Permissions\HasPermissions;
 use LaravelRestcord\Discord\Role;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -17,6 +19,15 @@ class RoleTest extends TestCase
         parent::setUp();
 
         $this->api = Mockery::mock(ApiClient::class);
+    }
+
+    /** @test */
+    public function expectsPermissionManagement()
+    {
+        $role = new Role([], $this->api);
+        $traitsInUse = class_uses($role);
+        $this->assertContains(HasPermissions::class, $traitsInUse);
+        $this->assertContains(ChecksPermissions::class, $traitsInUse);
     }
 
     /** @test */

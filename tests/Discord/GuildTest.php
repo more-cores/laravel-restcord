@@ -4,6 +4,7 @@ namespace LaravelRestcord;
 
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Discord\Guild;
+use LaravelRestcord\Discord\Permissions\Permission;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -23,15 +24,17 @@ class GuildTest extends TestCase
     public function getsAndSetsProperties()
     {
         $guild = new Guild([
-            'id'    => $id = time(),
-            'name'  => $name = uniqid(),
-            'icon'  => $icon = uniqid(),
+            'id'            => $id = time(),
+            'name'          => $name = uniqid(),
+            'icon'          => $icon = uniqid(),
+            'permissions'   => $permissions = time(),
         ], $this->api);
 
         $this->assertEquals($id, $guild->id());
         $this->assertEquals($name, $guild->name());
         $this->assertEquals('https://cdn.discordapp.com/icons/'.$guild->id().'/'.$icon.'.jpg', $guild->iconUrl());
         $this->assertEquals($icon, $guild->icon());
+        $this->assertEquals($permissions, $guild->permissions());
         $this->assertTrue($guild->hasIcon());
     }
 
@@ -65,5 +68,16 @@ class GuildTest extends TestCase
         $guild = new Guild([], $this->api);
 
         $this->assertFalse($guild->hasIcon());
+    }
+
+    /** @test */
+    public function authorizesPermissions()
+    {
+        $guild = new Guild([
+            'permissions' => Permission::SEND_MESSAGES,
+        ], $this->api);
+
+        $this->assertFalse($guild->userCan(Permission::MANAGE_GUILD));
+        $this->assertTrue($guild->userCan(Permission::SEND_MESSAGES));
     }
 }
