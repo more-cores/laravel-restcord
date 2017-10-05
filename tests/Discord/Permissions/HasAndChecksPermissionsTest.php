@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class HasAndChecksPermissionsTest extends TestCase
 {
-
     /** @test */
     public function authorizesAllPermissions()
     {

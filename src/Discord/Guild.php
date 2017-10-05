@@ -4,13 +4,13 @@ namespace LaravelRestcord\Discord;
 
 use Illuminate\Support\Fluent;
 use LaravelRestcord\Discord;
-use LaravelRestcord\Discord\Permissions\HasPermissions;
-use LaravelRestcord\Discord\Permissions\ChecksPermissions;
 use LaravelRestcord\Discord\Permissions\CanHavePermissions;
+use LaravelRestcord\Discord\Permissions\ChecksPermissions;
+use LaravelRestcord\Discord\Permissions\HasPermissions;
 
 /**
  * This guild object represents both a partial guild object
- * and a full guild object depending on context
+ * and a full guild object depending on context.
  *
  * @see https://discordapp.com/developers/docs/resources/user#get-current-user-guilds
  * @see https://discordapp.com/developers/docs/resources/guild#guild-object
@@ -60,7 +60,7 @@ class Guild extends Fluent implements CanHavePermissions
 
     /**
      * If guild was obtained via an oauth user we have
-     * its permissions
+     * its permissions.
      */
     public function userCan(int $permission) : bool
     {

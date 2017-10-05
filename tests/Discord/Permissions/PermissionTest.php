@@ -2,9 +2,6 @@
 
 namespace LaravelRestcord\Discord\Permissions;
 
-use LaravelRestcord\Discord\ApiClient;
-use LaravelRestcord\Discord\Guild;
-use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class PermissionTest extends TestCase
