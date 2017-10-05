@@ -23,15 +23,17 @@ class GuildTest extends TestCase
     public function getsAndSetsProperties()
     {
         $guild = new Guild([
-            'id'    => $id = time(),
-            'name'  => $name = uniqid(),
-            'icon'  => $icon = uniqid(),
+            'id'            => $id = time(),
+            'name'          => $name = uniqid(),
+            'icon'          => $icon = uniqid(),
+            'permissions'   => $permissions = time(),
         ], $this->api);
 
         $this->assertEquals($id, $guild->id());
         $this->assertEquals($name, $guild->name());
         $this->assertEquals('https://cdn.discordapp.com/icons/'.$guild->id().'/'.$icon.'.jpg', $guild->iconUrl());
         $this->assertEquals($icon, $guild->icon());
+        $this->assertEquals($permissions, $guild->permissions());
         $this->assertTrue($guild->hasIcon());
     }
 
@@ -61,6 +63,14 @@ class GuildTest extends TestCase
 
     /** @test */
     public function recognizesWhenIconIsMissing()
+    {
+        $guild = new Guild([], $this->api);
+
+        $this->assertFalse($guild->hasIcon());
+    }
+
+    /** @test */
+    public function authorizes()
     {
         $guild = new Guild([], $this->api);
 

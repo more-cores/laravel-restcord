@@ -28,9 +28,7 @@ class Discord
      * Guilds the current user has access to.  This is an abbreviated
      * version of the guilds endpoint so limited fields are provided.
      *
-     * @see https://discordapp.com/developers/docs/resources/user#user-guild-object
-     *
-     * @return array
+     * @see https://discordapp.com/developers/docs/resources/user#get-current-user-guilds
      */
     public function guilds() : Collection
     {

@@ -13,7 +13,7 @@ Small wrapper for [Restcord](http://www.restcord.com).
  1. Install package
 
 ```
-composer require more-cores/laravel-restcord:^1.0
+composer require more-cores/laravel-restcord:1.*
 ```
 
  2. For Laravel <= 5.4, register the [service provider](http://laravel.com/docs/master/providers) in `config/app.php`
@@ -40,10 +40,24 @@ Get a list of guilds the current user has access to:
 $discord->guilds() // Guild[]
 ```
 
-Get a user's permissions for a guild
+Get information about a user's relationship with a guild
 
 ```php
-$guild->getMemberById($discordUserId); // \LaravelRestcord\Discord\Member
+$guild->userCan(Permission::KICK_MEMBERS); // bool - uses permissions of the currently oauth'd user
+
+$member = $guild->getMemberById($discordUserId); // \LaravelRestcord\Discord\Member
+$member->roles(); // \LaravelRestcord\Discord\Role[]
+$member->joinedAt(); // Carbon
+$member->isDeaf(): // bool
+$member->isMute(): // bool
+```
+
+## Permissions
+
+This package ships with a trait that makes it easy and symantically clean to check permissions.
+
+```php 
+$guild->can($guild, Permission::SEND_MESSAGES);
 ```
 
 ## Adding Bots
