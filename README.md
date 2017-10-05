@@ -1,12 +1,26 @@
 # laravel-restcord [![Latest Stable Version](https://poser.pugx.org/more-cores/laravel-restcord/v/stable.png)](https://packagist.org/packages/more-cores/laravel-restcord) [![Total Downloads](https://poser.pugx.org/more-cores/laravel-restcord/downloads.png)](https://packagist.org/packages/more-cores/laravel-restcord) [![Coverage Status](https://coveralls.io/repos/github/more-cores/laravel-restcord/badge.svg)](https://coveralls.io/github/more-cores/laravel-restcord)
 
-Small wrapper for [Restcord](http://www.restcord.com).  
+A small, fluent wrapper for [Restcord](http://www.restcord.com).  
+
+## README Contents
+
+* [Features](#features)
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Guilds](#guilds)
+  * [Adding Bots To Guilds](#adding-bots-to-guilds)
+  * [Creating Webhooks](#creating-webhooks)
+
+<a name="features" />
 
 # Features
  
  * Integrates Restcord with [Laravel Socialite](http://socialiteproviders.github.io) so currently OAuth'd user is used for api calls
  * Handles creation of webhooks via OAuth (no bot required)
  * Handles adding bots to to guilds via OAuth (no websocket connection required)
+ * Obtain information about a member's relationship with a guild (roles, permissions, etc.)
+
+<a name="installation" />
 
 # Installation
 
@@ -16,7 +30,11 @@ Small wrapper for [Restcord](http://www.restcord.com).
 composer require more-cores/laravel-restcord:1.*
 ```
 
- 2. For Laravel <= 5.4, register the [service provider](http://laravel.com/docs/master/providers) in `config/app.php`
+ 2. Define the `DISCORD_BOT_TOKEN` environmental variable.
+ 3. Add the middleware `sessionHasDiscordToken` for the routes where you need to use the current OAuth'd user's credentials to interact with the Discord API.  This is required because session information is not available in a ServiceProvider.
+
+
+ 4. For Laravel <= 5.4, register the [service provider](http://laravel.com/docs/master/providers) in `config/app.php`
 
 ```php
 'providers' => [
@@ -25,12 +43,13 @@ composer require more-cores/laravel-restcord:1.*
 ]
 ```
 
- 3. Define the `DISCORD_BOT_TOKEN` environmental variable.
- 4. Add the middleware `sessionHasDiscordToken` for the routes where you need to use the current OAuth'd user's credentials to interact with the Discord API.  This is required because session information is not available in a ServiceProvider.
-  
+<a name="usage" />
+
 # Usage
 
 Anytime you see `$discord` in this documentation it is assumed to be an instance of `LaravelRestcord\Discord\Discord::class` which is available from Laravel's IOC container.
+
+<a name="guilds" />
 
 ## Guilds
 
@@ -48,19 +67,11 @@ $guild->userCan(Permission::KICK_MEMBERS); // bool - uses permissions of the cur
 $member = $guild->getMemberById($discordUserId); // \LaravelRestcord\Discord\Member
 $member->roles(); // \LaravelRestcord\Discord\Role[]
 $member->joinedAt(); // Carbon
-$member->isDeaf(): // bool
-$member->isMute(): // bool
 ```
 
-## Permissions
+<a name="adding-bots-to-guilds" />
 
-This package ships with a trait that makes it easy and symantically clean to check permissions.
-
-```php 
-$guild->can($guild, Permission::SEND_MESSAGES);
-```
-
-## Adding Bots
+## Adding Bots To Guilds
 
 This implementation uses the [Advanced Both Authorization](https://discordapp.com/developers/docs/topics/oauth2#advanced-bot-authorization) flow to add the bot to a guild.  You should have the **Require OAuth2 Code Grant** option _enabled_ on your app's settings.   
 
@@ -110,6 +121,8 @@ Your handler will be trigger when the bot has been added to a guild.
 var TOKEN="PUT YOUR TOKEN HERE";
 fetch("https://discordapp.com/api/v7/gateway").then(function(a){return a.json()}).then(function(a){var b=new WebSocket(a.url+"/?encoding=json&v=6");b.onerror=function(a){return console.error(a)},b.onmessage=function(a){try{var c=JSON.parse(a.data);0===c.op&&"READY"===c.t&&(b.close(),console.log("Successful authentication! You may now close this window!")),10===c.op&&b.send(JSON.stringify({op:2,d:{token:TOKEN,properties:{$browser:"b1nzy is a meme"},large_threshold:50}}))}catch(a){console.error(a)}}});
 ```
+
+<a name="creating-webhooks" />
 
 ## Creating Webhooks
 
