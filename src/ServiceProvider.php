@@ -44,11 +44,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'middleware' => ['web', 'sessionHasDiscordToken'],
         ], function () use ($router) {
             $router->get('/discord/create-webhook', WebhookCallback::class.'@createWebhook');
-        });
-
-        $router->group([
-            'middleware' => ['web'],
-        ], function () use ($router) {
             $router->get('/discord/bot-added', BotCallback::class.'@botAdded');
         });
     }
