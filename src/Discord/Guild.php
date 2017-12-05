@@ -23,6 +23,8 @@ class Guild extends Fluent implements CanHavePermissions
     /** @var ApiClient */
     protected $api;
 
+    protected $abbreviationCache = '';
+
     public function __construct(array $attributes = [], ?ApiClient $apiClient = null)
     {
         parent::__construct($attributes);
@@ -41,6 +43,20 @@ class Guild extends Fluent implements CanHavePermissions
     public function name() : string
     {
         return $this->name;
+    }
+
+    public function abbreviation() : string
+    {
+        // because this is generated on the fly we'll cache it
+        if ($this->abbreviationCache == null) {
+            $firstLetters = '';
+            foreach (explode(' ', $this->name) as $word) {
+                $firstLetters .= $word[0];
+            }
+            $this->abbreviationCache = strtoupper($firstLetters);
+        }
+
+        return $this->abbreviationCache;
     }
 
     public function hasIcon() : bool

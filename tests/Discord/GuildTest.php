@@ -39,6 +39,16 @@ class GuildTest extends TestCase
     }
 
     /** @test */
+    public function abbreviatesName()
+    {
+        $guild = new Guild([
+            'name'          => 'Waffle Cone',
+        ], $this->api);
+
+        $this->assertEquals('WC', $guild->abbreviation());
+    }
+
+    /** @test */
     public function getMemberByUserId()
     {
         $guildId = rand(101, 200);
