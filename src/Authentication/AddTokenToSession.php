@@ -2,23 +2,25 @@
 
 namespace LaravelRestcord\Authentication;
 
+use Laravel\Socialite\Contracts\Factory;
 use Illuminate\Contracts\Session\Session;
-use LaravelRestcord\Authentication\Socialite\DiscordProvider;
 
 class AddTokenToSession
 {
     /** @var Session */
     protected $session;
 
-    public function __construct(Session $session)
+    /** @var Factory */
+    protected $socialite;
+
+    public function __construct(Session $session, Factory $socialite)
     {
         $this->session = $session;
+        $this->socialite = $socialite;
     }
 
-    public function handle()
+    public function handle(LoginWithDiscord $loginWithDiscord)
     {
-        if (DiscordProvider::$token != null) {
-            $this->session->put('discord_token', DiscordProvider::$token);
-        }
+        $this->session->put('discord_token', $loginWithDiscord->token()->toArray());
     }
 }

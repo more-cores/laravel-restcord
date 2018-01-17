@@ -3,6 +3,7 @@
 namespace LaravelRestcord\Discord;
 
 use GuzzleHttp\Client;
+use LaravelRestcord\Authentication\Token;
 
 class ApiClient
 {
@@ -11,17 +12,29 @@ class ApiClient
     /** @var Client */
     protected $client;
 
-    public function __construct(string $token)
+    /** @var Token */
+    protected $token;
+
+    public function __construct(Token $token)
     {
-        $this->client = new Client(
-            [
-                'headers'     => [
-                    'Authorization' => 'Bearer '.$token,
-                    'User-Agent'    => 'LaravelRestcord (https://github.com/more-cores/laravel-restcord)',
-                    'Content-Type'  => 'application/json',
-                ],
-            ]
-        );
+        $this->token = $token;
+    }
+
+    protected function client() : Client
+    {
+        if ($this->client == null) {
+            $this->client = new Client(
+                [
+                    'headers'     => [
+                        'Authorization' => 'Bearer '.$this->token->token(),
+                        'User-Agent'    => 'LaravelRestcord (https://github.com/more-cores/laravel-restcord)',
+                        'Content-Type'  => 'application/json',
+                    ],
+                ]
+            );
+        }
+
+        return $this->client;
     }
 
     /**
@@ -34,7 +47,7 @@ class ApiClient
 
     public function guzzleClient() : Client
     {
-        return $this->client;
+        return $this->client();
     }
 
     public function get(string $uri, array $options = []) : array

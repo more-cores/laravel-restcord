@@ -8,6 +8,8 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Routing\Router;
 use Laravel\Lumen\Application as LumenApplication;
 use LaravelRestcord\Authentication\AddTokenToSession;
+use LaravelRestcord\Authentication\LoginWithDiscord;
+use LaravelRestcord\Authentication\Token;
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Http\BotCallback;
 use LaravelRestcord\Http\Middleware\InstantiateApiClientWithTokenFromSession;
@@ -37,8 +39,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
         $this->mergeConfigFrom($source, 'laravel-restcord');
 
-        // Use our middleware to configure the ApiClient to be bootstrapped with
-        // the Discord token
+        // By default we don't bootstrap the api client with the user's oauth token
+        // this middleware will do that for endpoints where we want to use the user's
+        // credentials
         $router->aliasMiddleware('sessionHasDiscordToken', InstantiateApiClientWithTokenFromSession::class);
         $router->group([
             'middleware' => ['web', 'sessionHasDiscordToken'],
@@ -60,11 +63,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         // upon login add the token to session if using Discord's socialite
         if (class_exists('SocialiteProviders\Discord\DiscordExtendSocialite')) {
-            Event::listen(Login::class, AddTokenToSession::class);
+            Event::listen(LoginWithDiscord::class, AddTokenToSession::class);
         }
 
         $this->app->bind(ApiClient::class, function ($app) {
-            return new ApiClient(session('discord_token'));
+            return new ApiClient(new Token(session('discord_token')));
         });
 
         // Configure Restcord's DiscordClient with some laravel components
