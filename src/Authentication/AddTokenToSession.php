@@ -2,8 +2,8 @@
 
 namespace LaravelRestcord\Authentication;
 
-use Laravel\Socialite\Contracts\Factory;
 use Illuminate\Contracts\Session\Session;
+use Laravel\Socialite\Contracts\Factory;
 
 class AddTokenToSession
 {

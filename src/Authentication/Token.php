@@ -50,19 +50,19 @@ class Token extends Fluent
         $client = new Client(
             [
                 'headers'     => [
-                    'Content-Type'=> 'application/x-www-form-urlencoded'
+                    'Content-Type'=> 'application/x-www-form-urlencoded',
                 ],
             ]
         );
 
         $response = $client->post(ApiClient::API_URL.'/oauth2/token', [
-            'client_id' => env('DISCORD_KEY'),
+            'client_id'     => env('DISCORD_KEY'),
             'client_secret' => env('DISCORD_SECRET'),
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $this->refreshToken(),
 
             // we aren't actually redirecting here, this is just another form of auth
-            'redirect_uri' => $redirectUri
+            'redirect_uri' => $redirectUri,
         ]);
 
         $this->setToken($response->access_token);
