@@ -43,4 +43,13 @@ class BotAddToGuildStub
     public function botAdded(Discord\Guild $Guild): RedirectResponse
     {
     }
+
+    /**
+     * If the user hits cancel, we'll need to handle the error.  Usually
+     * $error = "access_denied"
+     */
+    public function botNotAdded(string $error): RedirectResponse
+    {
+
+    }
 }

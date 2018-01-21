@@ -26,6 +26,11 @@ class BotCallback
         /** @var HandlesBotAddedToGuild $botAddedHandler */
         $botAddedHandler = $application->make($config->get('laravel-restcord.bot-added-handler'));
 
+        // can happen if the user decides not to add our bot
+        if ($request->has('error')) {
+            return $botAddedHandler->botNotAdded($request->get('error'));
+        }
+
         try {
             $response = $client->post('https://discordapp.com/api/oauth2/token', [
                 'headers' => [
