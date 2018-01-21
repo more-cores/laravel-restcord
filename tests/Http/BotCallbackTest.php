@@ -67,6 +67,7 @@ class BotCallbackTest extends TestCase
         ];
         $this->urlGenerator->shouldReceive('to')->with('/discord/bot-added')->andReturn($url = uniqid());
         $this->request->shouldReceive('get')->with('code')->andReturn($code = uniqid());
+        $this->request->shouldReceive('has')->with('error')->andReturn(false);
 
         $stream = Mockery::mock(StreamInterface::class);
         $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode([
@@ -111,6 +112,29 @@ class BotCallbackTest extends TestCase
     }
 
     /** @test */
+    public function cancelCreatingBotTriggersHandler()
+    {
+        $botAddedHandlerConfig = uniqid();
+        $this->config->shouldReceive('get')->with('laravel-restcord.bot-added-handler')->andReturn($botAddedHandlerConfig);
+        $controllerResponse = Mockery::mock(RedirectResponse::class);
+        $error = uniqid();
+        $botAddedHandler = Mockery::mock(HandlesBotAddedToGuild::class);
+        $botAddedHandler->shouldReceive('botNotAdded')->with($error)->andReturn($controllerResponse);
+        $this->application->shouldReceive('make')->with($botAddedHandlerConfig)->andReturn($botAddedHandler);
+        $this->request->shouldReceive('has')->with('error')->andReturn(true);
+        $this->request->shouldReceive('get')->with('error')->andReturn($error);
+
+        $this->assertEquals($controllerResponse, $this->botCallback->botAdded(
+            $this->request,
+            $this->application,
+            $this->config,
+            $this->client,
+            $this->urlGenerator,
+            $this->errorFactory
+        ));
+    }
+
+    /** @test */
     public function passesRecognizeableExceptionToHandler()
     {
         $restcordException = Mockery::mock(Exception::class);
@@ -119,6 +143,7 @@ class BotCallbackTest extends TestCase
 
         $this->urlGenerator->shouldIgnoreMissing();
         $this->request->shouldIgnoreMissing();
+        $this->request->shouldReceive('has')->with('error')->andReturn(false);
 
         $stream = Mockery::mock(StreamInterface::class);
         $stream->shouldReceive('getContents')->andReturn(\GuzzleHttp\json_encode([

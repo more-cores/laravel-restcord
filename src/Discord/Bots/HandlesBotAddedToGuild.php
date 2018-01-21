@@ -20,6 +20,12 @@ trait HandlesBotAddedToGuild
     abstract public function botAdded(string $accessToken, int $expiresIn, string $refreshToken, Guild $guild) : RedirectResponse;
 
     /**
+     * If the user hits cancel, we'll need to handle the error.  Usually
+     * $error = "access_denied".
+     */
+    abstract public function botNotAdded(string $error) : RedirectResponse;
+
+    /**
      * When an error occurs when adding a bot the exception will be passed here.
      *
      * For a list of common error scenarios you should handle,
