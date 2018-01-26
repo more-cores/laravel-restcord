@@ -96,7 +96,7 @@ class Guild extends Fluent implements CanHavePermissions
     }
 
     /**
-     * Providing a guild id will pre-select that guild on the dropdown menu
+     * Providing a guild id will pre-select that guild on the dropdown menu.
      *
      * @codecoverageignore
      */
