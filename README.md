@@ -27,7 +27,7 @@ A small, fluent wrapper for [Restcord](http://www.restcord.com).
  1. Install package
 
 ```
-composer require more-cores/laravel-restcord:1.*
+composer require more-cores/laravel-restcord:2.*
 ```
 
  2. Define the `DISCORD_BOT_TOKEN` environmental variable.
