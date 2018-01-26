@@ -96,11 +96,19 @@ class Guild extends Fluent implements CanHavePermissions
     }
 
     /**
+     * Providing a guild id will pre-select that guild on the dropdown menu
+     *
      * @codecoverageignore
      */
-    public function sendUserToDiscordToAddBot(int $permissions)
+    public function sendUserToDiscordToAddBot(int $permissions, ?int $guildId = null)
     {
-        header('Location: '.ApiClient::API_URL.'/oauth2/authorize?client_id='.Discord::key().'&scope=bot&permissions='.$permissions.'&redirect_uri='.urlencode(Discord::callbackUrl().'/bot-added').'&response_type=code');
+        $url = ApiClient::API_URL.'/oauth2/authorize?client_id='.Discord::key().'&scope=bot&permissions='.$permissions.'&redirect_uri='.urlencode(Discord::callbackUrl().'/bot-added').'&response_type=code';
+
+        if ($guildId != null) {
+            $url .= '&guild_id='.$guildId;
+        }
+
+        header('Location: '.$url);
         exit;
     }
 
