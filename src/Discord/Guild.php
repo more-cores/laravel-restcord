@@ -51,7 +51,9 @@ class Guild extends Fluent implements CanHavePermissions
         if ($this->abbreviationCache == null) {
             $firstLetters = '';
             foreach (explode(' ', trim($this->name)) as $word) {
-                $firstLetters .= $word[0];
+                if (isset($word[0])) {
+                    $firstLetters .= $word[0];
+                }
             }
             $this->abbreviationCache = strtoupper($firstLetters);
         }
