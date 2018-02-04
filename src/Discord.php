@@ -15,6 +15,9 @@ class Discord
     public static $key;
 
     /** @var string */
+    public static $secret;
+
+    /** @var string */
     public static $callbackUrl;
 
     public function __construct(?ApiClient $apiClient = null)
@@ -64,6 +67,16 @@ class Discord
     public static function key() : string
     {
         return self::$key;
+    }
+
+    public static function setSecret(string $secret)
+    {
+        self::$secret = $secret;
+    }
+
+    public static function secret() : string
+    {
+        return self::$secret;
     }
 
     public static function setCallbackUrl(string $callbackUrl)

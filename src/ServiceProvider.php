@@ -55,7 +55,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        Discord::setKey(env('DISCORD_KEY', ''));
+        // Allow the application to have separate key/secrets for web/console
+        if ($this->app->runningInConsole()) {
+            Discord::setKey(env('DISCORD_BOT_KEY', ''));
+            Discord::setSecret(env('DISCORD_BOT_SECRET', ''));
+        } else {
+            Discord::setKey(env('DISCORD_KEY', ''));
+            Discord::setSecret(env('DISCORD_SECRET', ''));
+        }
         Discord::setCallbackUrl(env('APP_URL', ''));
 
         // upon login add the token to session if using Discord's socialite

@@ -43,6 +43,17 @@ composer require more-cores/laravel-restcord:2.*
 ]
 ```
 
+<a name="environment-variables" />
+
+## Environment Variables
+
+ * `DISCORD_BOT_KEY`
+ * `DISCORD_BOT_SECRET`
+ * `DISCORD_KEY`
+ * `DISCORD_SECRET`
+ 
+Bot key/secret will be used for callback endpoints related to adding a bot or creating a webhook as well as when the application is running in the console such as queue workers and cron. 
+
 <a name="usage" />
 
 # Usage

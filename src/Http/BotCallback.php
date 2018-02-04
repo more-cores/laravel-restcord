@@ -38,8 +38,8 @@ class BotCallback
                 ],
                 'form_params' => [
                     'grant_type'    => 'authorization_code',
-                    'client_id'     => env('DISCORD_KEY'),
-                    'client_secret' => env('DISCORD_SECRET'),
+                    'client_id'     => Discord::key(),
+                    'client_secret' => Discord::secret(),
                     'code'          => $request->get('code'),
 
                     // this endpoint is never hit, it just needs to be here for OAuth compatibility
