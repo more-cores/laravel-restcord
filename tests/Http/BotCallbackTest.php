@@ -79,14 +79,17 @@ class BotCallbackTest extends TestCase
         $response = Mockery::mock(Response::class);
         $response->shouldReceive('getBody')->andReturn($stream);
 
+        Discord::setKey($key = uniqid());
+        Discord::setSecret($secret = uniqid());
+
         $this->client->shouldReceive('post')->with('https://discordapp.com/api/oauth2/token', [
             'headers' => [
                 'Accept' => 'application/json',
             ],
             'form_params' => [
                 'grant_type'    => 'authorization_code',
-                'client_id'     => env('DISCORD_KEY'),
-                'client_secret' => env('DISCORD_SECRET'),
+                'client_id'     => $key,
+                'client_secret' => $secret,
                 'code'          => $code,
                 'redirect_uri'  => $url,
             ],
