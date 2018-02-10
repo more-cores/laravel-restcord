@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Routing\Router;
 use Laravel\Lumen\Application as LumenApplication;
 use LaravelRestcord\Authentication\AddTokenToSession;
+use LaravelRestcord\Authentication\InteractsWithDiscordAsBot;
 use LaravelRestcord\Discord\ApiClient;
 use LaravelRestcord\Http\BotCallback;
 use LaravelRestcord\Http\Middleware\InstantiateApiClientWithTokenFromSession;
@@ -22,6 +23,8 @@ use RestCord\DiscordClient;
  */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    use InteractsWithDiscordAsBot;
+
     /**
      * Register paths to be published by the publish command.
      *
@@ -57,8 +60,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         // Allow the application to have separate key/secrets for web/console
         if ($this->app->runningInConsole()) {
-            Discord::setKey(env('DISCORD_BOT_KEY', ''));
-            Discord::setSecret(env('DISCORD_BOT_SECRET', ''));
+            $this->useDiscordBotToken();
         } else {
             Discord::setKey(env('DISCORD_KEY', ''));
             Discord::setSecret(env('DISCORD_SECRET', ''));
