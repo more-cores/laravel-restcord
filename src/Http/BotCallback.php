@@ -8,6 +8,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use LaravelRestcord\Authentication\InteractsWithDiscordAsBot;
 use LaravelRestcord\Discord;
 use LaravelRestcord\Discord\Bots\HandlesBotAddedToGuild;
 use LaravelRestcord\Discord\ErrorFactory;
@@ -15,6 +16,8 @@ use LaravelRestcord\Discord\Guild;
 
 class BotCallback
 {
+    use InteractsWithDiscordAsBot;
+
     public function botAdded(
         Request $request,
         Application $application,
@@ -23,6 +26,11 @@ class BotCallback
         UrlGenerator $urlGenerator,
         ErrorFactory $errorFactory
     ) {
+        // Since we're doing the full oauth handshake
+        // to add the bot, we need to use the bot token
+        // during the exchange
+        $this->useDiscordBotToken();
+
         /** @var HandlesBotAddedToGuild $botAddedHandler */
         $botAddedHandler = $application->make($config->get('laravel-restcord.bot-added-handler'));
 
