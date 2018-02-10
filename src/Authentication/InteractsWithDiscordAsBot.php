@@ -12,7 +12,7 @@ trait InteractsWithDiscordAsBot
      */
     public function useDiscordBotToken()
     {
-        Discord::setKey(env('DISCORD_BOT_KEY', ''));
-        Discord::setSecret(env('DISCORD_BOT_SECRET', ''));
+        Discord::setKey(env('DISCORD_BOT_KEY', env('DISCORD_KEY', '')));
+        Discord::setSecret(env('DISCORD_BOT_SECRET', env('DISCORD_SECRET', '')));
     }
 }
