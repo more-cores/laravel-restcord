@@ -83,9 +83,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new DiscordClient([
                 'token' => $config['bot-token'],
 
-                // use Laravel's monologger
-                'logger' => $app['log']->getMonolog(),
-
                 'throwOnRatelimit' => $config['throw-exception-on-rate-limit'],
             ]);
         });
