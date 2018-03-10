@@ -82,7 +82,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             return new DiscordClient([
                 'token' => $config['bot-token'],
-                
+
                 // use Laravel's monologger - supports 5.5 & 5.6
                 'logger' => method_exists($app['log'], 'getMonolog') ? $app['log']->getMonolog() : $app['log']->channel()->getLogger(),
 
