@@ -4,6 +4,7 @@ namespace LaravelRestcord\Http;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -54,7 +55,7 @@ class BotCallback
                     'redirect_uri' => $urlGenerator->to(Discord::callbackUrl().'/bot-added'),
                 ],
             ]);
-        } catch (ClientException $e) {
+        } catch (ClientException | ServerException $e) {
             $json = \GuzzleHttp\json_decode($e->getResponse()->getBody()->getContents(), true);
 
             // Provide a more developer-friendly error message for common errors
